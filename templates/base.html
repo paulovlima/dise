@@ -6,18 +6,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DISE</title>
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> 
 </head>
 <body>
     <header id = "header-principal">
+        <a href="{% url 'index' %}">Logo da DISE</a>
         <nav id = "nav-principal">
             <ul>
-                <li>Principal</li>
-                <li>Sobre</li>
+                <li>Cadastro Empresa</li>
+                <li>Cadastro Usuário</li>
+                <li>Login</li>
             </ul>
         </nav>
     </header>
+    <hr>
     <main id ='main-principal'>
         {% block content %}
         {% endblock content %}
