@@ -1,0 +1,65 @@
+ body{
+    margin: 0px;
+    background-color: #fafafa;
+ }
+ header#header-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+ }
+
+ nav#nav-principal li{
+    display: inline-block;
+    padding-left: 10px;
+    width: 150px;
+    height: 35px;
+    
+ }
+ #login{
+    border-radius: 13px;
+    width: 150px;
+    height: 35px;
+    background-color: #8b84df; 
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-family: 'Inter';
+    color: white;
+    text-decoration: none;
+ }
+ #login:hover{
+    background-color: #7871c0;
+    text-decoration: underline;
+ }
+
+ #cadastro{
+    border-radius: 20px;
+    width: 150px;
+    height: 32px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    color:#1D41FF;
+    text-decoration: none;
+    font-family: 'Inter';
+ }
+ #cadastro:hover{
+    text-decoration: underline;
+ }
+
+ footer#footer-principal{
+    background-color: #FDAD00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+ #lista-tags{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+ }
+
+ .subtitle{
+    font-family: 'bhavuka';
+ }

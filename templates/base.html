@@ -9,6 +9,9 @@
     <title>
         {% block title %}{% endblock title %}
     </title>
+    <link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link href="https://fonts.cdnfonts.com/css/bhavuka" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> 
 </head>
 <body>
@@ -16,9 +19,9 @@
         <a href="{% url 'index' %}">Logo da DISE</a>
         <nav id = "nav-principal">
             <ul>
-                <li>Cadastro Empresa</li>
-                <li>Cadastro Usuário</li>
-                <li>Login</li>
+                <li><a id = 'cadastro'>Cadastro Empresa</a></li>
+                <li><a id = 'cadastro'>Cadastro Usuário</a></li>
+                <li style="float:right"><a id='login'>Login</a></li>
             </ul>
         </nav>
     </header>
@@ -27,7 +30,6 @@
         {% block content %}
         {% endblock content %}
     </main>
-    <hr>
     <footer id = "footer-principal">
         <small>Copyright 2022</small>
     </footer>
