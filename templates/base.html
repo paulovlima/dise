@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DISE</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> 
+</head>
+<body>
+    <header id = "header-principal">
+        <nav id = "nav-principal">
+            <ul>
+                <li>Principal</li>
+                <li>Sobre</li>
+            </ul>
+        </nav>
+    </header>
+    <main id ='main-principal'>
+        {% block content %}
+        {% endblock content %}
+    </main>
+    <hr>
+    <footer id = "footer-principal">
+        <small>Copyright 2022</small>
+    </footer>
+</body>
+</html>
