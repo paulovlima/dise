@@ -1,11 +1,9 @@
  body{
     margin: 0px;
-    background-color: #fafafa;
+    background-color: #fff;
  }
- header#header-main{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+ header#header-principal{
  }
 
  nav#nav-principal li{
@@ -19,7 +17,7 @@
     border-radius: 13px;
     width: 150px;
     height: 35px;
-    background-color: #8b84df; 
+    background-color: #FDAD00; 
     justify-content: center;
     display: flex;
     align-items: center;
@@ -28,7 +26,7 @@
     text-decoration: none;
  }
  #login:hover{
-    background-color: #7871c0;
+    background-color: #eba205;
     text-decoration: underline;
  }
 
@@ -62,4 +60,28 @@
 
  .subtitle{
     font-family: 'bhavuka';
+ }
+ #pesquisa{
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    
+ }
+ #pesquisa input{
+   border-top-width: 0px;
+   border-top-style: solid;
+   border-right-width: 0px;
+   border-right-style: solid;
+   border-left-width: 0px;
+   border-left-style: solid;
+   width: 240px;
+   height: 20px;
+ }
+ #pesquisa button{
+   float: right;
+   width: 20px;
+   height: 20px;
+   margin-top: 2px;
+   background-color: #FDAD00;
+   border: 1px solid grey;
  }
