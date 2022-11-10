@@ -17,6 +17,7 @@
 * Comentários e Pontuação
 * Banco de Dados
 * Templates bases e CSS
+    * ~~Página Inicial~~
 
 Conforme formos completando ir riscando o que foi feito com ~~~~ e o texto no meio dele, exemplo:
 
