@@ -5,7 +5,7 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from .forms import ClienteSignUpForm
 from django.views import generic
-from .models import User
+from .models import User, Cliente
 
 
 class ClienteSingUpView(generic.CreateView):

@@ -2,13 +2,14 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 from .models import User, Cliente, Empresa
-
+from dise import settings
+YEARS_CHOICE = [str(i) for i in range(1940,2007)]
 class ClienteSignUpForm(UserCreationForm):
     cpf = forms.CharField(max_length=11,min_length=11,required=True)
     nome = forms.CharField(required=True)
     sobrenome = forms.CharField(required=True)
     tel = forms.CharField(min_length=10, max_length=11,required=True)
-    nascimento = forms.DateField(required=True)
+    nascimento = forms.DateField(required=True,label='Data de Nascimento', widget=forms.SelectDateWidget(years=YEARS_CHOICE))
     email = forms.EmailField(required=True)
     image = forms.URLField(required=True)
 

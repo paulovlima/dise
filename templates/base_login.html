@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link href="https://fonts.cdnfonts.com/css/bhavuka" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/inder" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style_login.css' %}">
     <script src = "{% static 'functions.js' %}" type="text/javascript"></script> 
 </head>
 <body>
@@ -21,8 +21,6 @@
         <a href="{% url 'index' %}">Logo da DISE</a>
         <nav id = "nav-principal">
             <ul>
-                <li><a id = 'cadastro'>Cadastro Empresa</a></li>
-                <li><a id = 'cadastro' href="{% url 'singup_cliente' %}">Cadastro Usuário</a></li>
                 <li style="float:right"><a id='login'>Login</a></li>
             </ul>
         </nav>

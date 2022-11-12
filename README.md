@@ -15,9 +15,10 @@
 * Confirmação de Agendamento
 * Página de Serviço Completo
 * Comentários e Pontuação
-* Banco de Dados
+* ~~Banco de Dados~~
 * Templates bases e CSS
     * ~~Página Inicial~~
+    * Cadastros (Adicionar erro de validação.)
 
 Conforme formos completando ir riscando o que foi feito com ~~~~ e o texto no meio dele, exemplo:
 

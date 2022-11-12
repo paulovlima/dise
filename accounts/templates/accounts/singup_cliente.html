@@ -1,16 +1,49 @@
-{% extends 'base.html' %}
+{% extends 'base_login.html' %}
 
 {% block title %}
 Criar Usuário
 {% endblock title %}
 
 {% block content %}
-<h2>Criar Usuário</h2>
-
+<div class="container">
+<h2>Bem-Vindo ao Dise</h2>
+<p> Preencha o formulário para se cadastrar</p>
 <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Criar</button>
+    <div class="container2">
+        {% csrf_token %}
+        <div class="box6">
+            <p>Usuário</p>
+            {{ form.username}}
+        </div>
+        <div class="box1">
+            <p>Senha</p>
+            {{form.password1}}
+            <p>Repita a Senha</p>
+            {{form.password2}}
+        </div>
+        <div class="box2">
+                <p>Nome</p>
+                {{form.nome}}
+                <p>Sobrenome</p>
+                {{form.sobrenome}}
+        </div>
+        <div class="box3">
+            <p>CPF</p>
+            {{form.cpf}}
+            <p>Data de Nascimento</p>
+            {{form.nascimento}}
+            <p>Telefone</p>
+            {{form.tel}}
+        </div>
+        <div class="box4">
+            <p>Email</p>
+            {{form.email}}
+            <p>URL da sua Foto</p>
+            {{form.image}}
+        </div>
+        <br>
+        <button id = 'login' type="submit">Criar</button>
+    </div>
 </form>
-
+</div>
 {% endblock content %} 
