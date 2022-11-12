@@ -34,3 +34,7 @@ class Empresa(models.Model):
     qui = models.BooleanField(default = False)
     sex = models.BooleanField(default = False)
     sab = models.BooleanField(default = False)
+
+class Tags(models.Model):
+    name = models.CharField(max_length=250)
+    empresa = models.ManyToManyField(Empresa)
