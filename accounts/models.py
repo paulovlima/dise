@@ -16,6 +16,7 @@ class Cliente(models.Model):
     tel = models.CharField(unique = True)
     nascimento = models.DateField()
     email = models.EmailField(unique = True)
+    image = models.URLField()
 
 class Empresa(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
@@ -27,6 +28,7 @@ class Empresa(models.Model):
     tel = models.CharField(unique = True)
     endereco = models.CharField(max_length=150)
     nome_empresa = models.CharField(max_length=50)
+    image = models.URLField()
     dom = models.BooleanField(default = False)
     seg = models.BooleanField(default = False)
     ter = models.BooleanField(default = False)
