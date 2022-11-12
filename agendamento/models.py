@@ -1,25 +1,31 @@
 from django.db import models
-from ..agendamento.models import User, Cliente, Empresa
+from accounts.models import User, Cliente, Empresa
 from django.conf import settings
 # Create your models here.
 
 class Servico(models.Model):
-    orcamento = models.DecimalField(decimal_places=2, default=0)
+    orcamento = models.DecimalField(max_digits=4,decimal_places=2, default=0)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     hora_agendada = models.DateTimeField()
     endereco_agendado = models.CharField(max_length = 200)
-    status = models.CharField()
+    status = models.CharField(max_length = 200)
 
 class Pagamento(models.Model):
-    valor_pagar = models.DecimalField(decimal_places=2, default=0)
-    servico = models.ForeignKey(Servico, on_delete=models.CASCADE, unique=True)
+    valor_pagar = models.DecimalField(max_digits=4,decimal_places=2, default=0)
+    servico = models.OneToOneField(Servico, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
-    status = models.CharField()
+    status = models.CharField(max_length = 200)
 
-class Comment(models.Model):
+class CommentCliente(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     text = models.TextField()
-    rating = models.DecimalField(decimal_places=2,default=5)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    rating = models.DecimalField(max_digits=2,decimal_places=2,default=5)
+    cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
+
+class CommentEmpresa(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    text = models.TextField()
+    rating = models.DecimalField(max_digits=2,decimal_places=2,default=5)
+    cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)

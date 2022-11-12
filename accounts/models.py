@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinLengthValidator
 
 # Create your models here.
 
@@ -13,19 +12,19 @@ class Cliente(models.Model):
     cpf = models.CharField(unique = True, max_length=11)
     nome = models.CharField(max_length=40)
     sobrenome = models.CharField(max_length=100)
-    tel = models.CharField(unique = True)
+    tel = models.CharField(unique = True,max_length=11)
     nascimento = models.DateField()
     email = models.EmailField(unique = True)
     image = models.URLField()
 
 class Empresa(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
-    razao_social = models.CharField()
+    razao_social = models.CharField(max_length= 200)
     cnpj = models.IntegerField(unique = True)
     horario_inicio = models.TimeField()
     horario_fim = models.TimeField()
     email = models.EmailField(unique = True)
-    tel = models.CharField(unique = True)
+    tel = models.CharField(unique = True,max_length=11)
     endereco = models.CharField(max_length=150)
     nome_empresa = models.CharField(max_length=50)
     image = models.URLField()
