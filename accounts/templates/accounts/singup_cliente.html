@@ -8,6 +8,11 @@ Criar Usuário
 <div class="container">
 <h2>Bem-Vindo ao Dise</h2>
 <p> Preencha o formulário para se cadastrar</p>
+{% for field in form %}
+    {% if field.errors %}
+        <li>{{ field.errors|striptags }}</li>
+    {% endif %}
+{% endfor %}
 <form method="post">
     <div class="container2">
         {% csrf_token %}

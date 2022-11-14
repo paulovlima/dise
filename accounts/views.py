@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import login
 from django.shortcuts import redirect
-from .forms import ClienteSignUpForm
+from .forms import ClienteSignUpForm, EmpresaSignUpForm
 from django.views import generic
 from .models import User, Cliente
 
@@ -15,6 +15,20 @@ class ClienteSingUpView(generic.CreateView):
 
     def get_context_data(self, **kwargs):
         kwargs['user_type'] = 'cliente'
+        return super().get_context_data(**kwargs)
+    
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('index')
+
+class EmpresaSingUpView(generic.CreateView):
+    model = User
+    form_class = EmpresaSignUpForm
+    template_name = 'accounts/singup_empresa.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'empresa'
         return super().get_context_data(**kwargs)
     
     def form_valid(self, form):

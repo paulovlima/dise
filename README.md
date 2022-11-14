@@ -2,6 +2,7 @@
 
 ### O que precisa ser feito:
 * Página Principal
+    * Adicionar os perfis
 * Login dos usuários
     * Empresa
     * Cliente
@@ -18,7 +19,7 @@
 * ~~Banco de Dados~~
 * Templates bases e CSS
     * ~~Página Inicial~~
-    * Cadastros (Adicionar erro de validação.)
+    * Cadastros (~~Adicionar erro de validação.~~)
 
 Conforme formos completando ir riscando o que foi feito com ~~~~ e o texto no meio dele, exemplo:
 
