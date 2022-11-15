@@ -8,6 +8,10 @@ import datetime as dt
 YEARS_CHOICE = [str(i) for i in range(1940,2007)]
 HOUR_CHOICES = [(dt.time(hour=x), '{:02d}:00'.format(x)) for x in range(0, 24)]
 
+def only_digits(text):
+    for i in text:
+        if type(i) != int: return False
+    return True
 
 class ClienteSignUpForm(UserCreationForm):
     cpf = forms.CharField(max_length=11,min_length=11,required=True)
@@ -21,6 +25,14 @@ class ClienteSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
     
+    def clean(self):
+        cd = self.cleaned_data
+        if not only_digits(cd.get('cpf')):
+            self.add_error('cpf','Insira um CPF válido!')
+        if not only_digits(cd.get('tel')):
+            self.add_error('tel','Insira um telefone válido')
+        return cd
+
     @transaction.atomic
     def save(self):
         user = super().save(commit=False)

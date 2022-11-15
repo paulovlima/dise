@@ -8,7 +8,7 @@
     * Cliente
 * Cadastro dos Usuários
     * Empresa
-    * Cliente
+    * ~~Cliente~~
 * Perfil dos Usuários
     * Empresa
     * Cliente
