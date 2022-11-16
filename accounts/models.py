@@ -35,6 +35,7 @@ class Empresa(models.Model):
     qui = models.BooleanField(default = False)
     sex = models.BooleanField(default = False)
     sab = models.BooleanField(default = False)
+    desc = models.CharField(max_length=200, default='')
 
 class Tags(models.Model):
     name = models.CharField(max_length=250)
