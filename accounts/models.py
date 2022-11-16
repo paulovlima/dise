@@ -39,4 +39,4 @@ class Empresa(models.Model):
 
 class Tags(models.Model):
     name = models.CharField(max_length=250)
-    empresa = models.ManyToManyField(Empresa)
+    empresa = models.ManyToManyField(Empresa, null = True, blank=True)
