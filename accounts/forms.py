@@ -98,13 +98,15 @@ class EmpresaSignUpForm(UserCreationForm):
         user = super().save(commit=False)
         user.is_empresa = True
         user.save()
-        cliente = Empresa(user = user,
+        empresa = Empresa(user = user,
                         cnpj = self.cleaned_data.get('cnpj'),
                         razao_social = self.cleaned_data.get('razao_social'),
                         nome_empresa = self.cleaned_data.get('nome_empresa'),
                         tel = self.cleaned_data.get('tel'),
                         email = self.cleaned_data.get('email'),
                         image = self.cleaned_data.get('image'),
+                        horario_inicio = self.cleaned_data.get('horario_inicio'),
+                        horario_fim = self.cleaned_data.get('horario_fim'),
                         seg = self.cleaned_data.get('seg'),
                         ter = self.cleaned_data.get('ter'),
                         qua = self.cleaned_data.get('qua'),
@@ -112,6 +114,8 @@ class EmpresaSignUpForm(UserCreationForm):
                         sex = self.cleaned_data.get('sex'),
                         sab = self.cleaned_data.get('sab'),
                         dom = self.cleaned_data.get('dom'),
+                        desc = self.cleaned_data.get('desc')
                         )
+        empresa.tags.add(*self.cleaned_data.get('tags'))
         return user
         
