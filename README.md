@@ -6,8 +6,8 @@
 * Login dos usuários
     * Empresa
     * Cliente
-* Cadastro dos Usuários
-    * Empresa
+* ~~Cadastro dos Usuários~~
+    * ~~Empresa~~
     * ~~Cliente~~
 * Perfil dos Usuários
     * Empresa
@@ -19,7 +19,7 @@
 * ~~Banco de Dados~~
 * Templates bases e CSS
     * ~~Página Inicial~~
-    * Cadastros (~~Adicionar erro de validação.~~)
+    * ~~Cadastros~~(~~Adicionar erro de validação.~~)
 
 Conforme formos completando ir riscando o que foi feito com ~~~~ e o texto no meio dele, exemplo:
 
