@@ -55,7 +55,7 @@ class ClienteSignUpForm(UserCreationForm):
 class EmpresaSignUpForm(UserCreationForm):
     tags = forms.ModelMultipleChoiceField(
         queryset= Tags.objects.all(),
-        required = False,
+        required = True,
         widget = forms.CheckboxSelectMultiple
     )
     cnpj = forms.CharField(max_length=14,min_length=14,required=True)

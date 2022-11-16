@@ -9,7 +9,7 @@ Cadastre sua empresa
 <h2>Bem-Vindo ao Dise</h2>
 <p> Preencha o formulário para se cadastrar</p>
 {% for field in form %}
-    {% if field.errors %}
+    {% if field.errors  and field != form.tags %}
         <li id="erro">{{ field.errors|striptags }}</li>
     {% endif %}
 {% endfor %}
@@ -84,6 +84,10 @@ Cadastre sua empresa
         <div>
             <p>Escolha suas áreas de atuação</p>
             {{form.tags}}
+            {% if form.tags.errors %}
+            <li id="erro">{{ form.tags.errors|striptags }}</li>
+            {% endif %}
+            
         </div>
         <div></div>
         <div><p>Adicione uma breve Descrição</p>
