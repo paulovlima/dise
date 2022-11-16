@@ -17,6 +17,9 @@ class Cliente(models.Model):
     email = models.EmailField(unique = True)
     image = models.URLField()
 
+    def __str__(self):
+        return f"{self.nome} {self.sobrenome}"
+
 class Empresa(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
     razao_social = models.CharField(max_length= 200)
@@ -28,15 +31,21 @@ class Empresa(models.Model):
     endereco = models.CharField(max_length=150)
     nome_fantasia = models.CharField(max_length=50)
     image = models.URLField()
-    dom = models.BooleanField(default = False)
-    seg = models.BooleanField(default = False)
-    ter = models.BooleanField(default = False)
-    qua = models.BooleanField(default = False)
-    qui = models.BooleanField(default = False)
-    sex = models.BooleanField(default = False)
-    sab = models.BooleanField(default = False)
+    dom = models.BooleanField(default = False, blank= True)
+    seg = models.BooleanField(default = False, blank= True)
+    ter = models.BooleanField(default = False, blank= True)
+    qua = models.BooleanField(default = False, blank= True)
+    qui = models.BooleanField(default = False, blank= True)
+    sex = models.BooleanField(default = False, blank= True)
+    sab = models.BooleanField(default = False, blank= True)
     desc = models.CharField(max_length=200, default='')
+
+    def __str__(self):
+        return f"{self.nome_fantasia}"
 
 class Tags(models.Model):
     name = models.CharField(max_length=250)
     empresa = models.ManyToManyField(Empresa, null = True, blank=True)
+
+    def __str__(self):
+        return '#{}'.format(self.name)

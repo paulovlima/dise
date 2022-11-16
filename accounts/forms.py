@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from .models import User, Cliente, Empresa
+from .models import User, Cliente, Empresa, Tags
 from dise import settings
 import datetime as dt
 
@@ -10,7 +10,10 @@ HOUR_CHOICES = [(dt.time(hour=x), '{:02d}:00'.format(x)) for x in range(0, 24)]
 
 def only_digits(text):
     for i in text:
-        if type(i) != int: return False
+        try:
+            int(i)
+        except:
+            return False
     return True
 
 class ClienteSignUpForm(UserCreationForm):
@@ -50,27 +53,46 @@ class ClienteSignUpForm(UserCreationForm):
         return user
 
 class EmpresaSignUpForm(UserCreationForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset= Tags.objects.all(),
+        required = False,
+        widget = forms.CheckboxSelectMultiple
+    )
     cnpj = forms.CharField(max_length=14,min_length=14,required=True)
     razao_social = forms.CharField(required=True)
     nome_fantasia = forms.CharField(required=True)
     tel = forms.CharField(min_length=10, max_length=11,required=True)
-    enderco = forms.CharField(required=True)
+    endereco = forms.CharField(required=True)
     email = forms.EmailField(required=True)
     image = forms.URLField(required=True)
-    seg = forms.BooleanField()
-    ter = forms.BooleanField()
-    qua = forms.BooleanField()
-    qui = forms.BooleanField()
-    sex = forms.BooleanField()
-    sab = forms.BooleanField()
-    dom = forms.BooleanField()
-    desc = forms.CharField(widget=forms.Textarea(attrs={'rows':'5'}))
+    horario_inicio = forms.ChoiceField(choices= HOUR_CHOICES)
+    horario_fim = forms.ChoiceField(choices=HOUR_CHOICES)
+    seg = forms.BooleanField(required= False)
+    ter = forms.BooleanField(required= False)
+    qua = forms.BooleanField(required= False)
+    qui = forms.BooleanField(required= False)
+    sex = forms.BooleanField(required= False)
+    sab = forms.BooleanField(required= False)
+    dom = forms.BooleanField(required= False)
+    desc = forms.CharField(widget=forms.Textarea(attrs={'rows':'5'}),required=False)
 
     class Meta(UserCreationForm.Meta):
         model = User
         widgets = {'horario_inicio': forms.Select(choices=HOUR_CHOICES),
                     'horario_fim':forms.Select(choices=HOUR_CHOICES)}
     
+    def clean(self):
+        cd = self.cleaned_data
+        if not only_digits(cd.get('cnpj')):
+            self.add_error('cnpj','Insira um CNPJ válido')
+        if not only_digits(cd.get('tel')):
+            self.add_error('tel','Insira um Telefone válido')
+        if not (cd.get('seg') or cd.get('ter') or cd.get('qua') or cd.get('qui') or cd.get('sex') or cd.get('sab') or cd.get('dom')):
+            self.add_error('dom','Selecione ao menos um dia da semana!')
+        if cd.get('horario_inicio') >= cd.get('horario_fim'):
+            self.add_error('horario_inicio','O horário de Inicio deve ser menor que o Horário de Saida')
+        return cd
+
     @transaction.atomic
     def save(self):
         user = super().save(commit=False)

@@ -61,3 +61,18 @@ body{
 #erro{
    color:red;
 }
+.container2{
+   display: grid;
+   grid-template-columns: 50% 50%;
+}
+
+.box1{
+   display: grid;
+   grid-template-columns: 50% 50%;
+   grid-template-rows: 50% 50%;
+}
+.box2{
+   display: grid;
+   grid-template-columns: 50% 50%;
+   grid-template-rows: 50% 50%;
+}
