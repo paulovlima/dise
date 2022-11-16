@@ -41,7 +41,7 @@ class ClienteSignUpForm(UserCreationForm):
         user = super().save(commit=False)
         user.is_cliente = True
         user.save()
-        cliente = Cliente(user = user,
+        cliente = Cliente.objects.create(user = user,
                         cpf = self.cleaned_data.get('cpf'),
                         nome = self.cleaned_data.get('nome'),
                         sobrenome = self.cleaned_data.get('sobrenome'),
@@ -98,13 +98,14 @@ class EmpresaSignUpForm(UserCreationForm):
         user = super().save(commit=False)
         user.is_empresa = True
         user.save()
-        empresa = Empresa(user = user,
+        empresa = Empresa.objects.create(user = user,
                         cnpj = self.cleaned_data.get('cnpj'),
                         razao_social = self.cleaned_data.get('razao_social'),
-                        nome_empresa = self.cleaned_data.get('nome_empresa'),
+                        nome_fantasia = self.cleaned_data.get('nome_fantasia'),
                         tel = self.cleaned_data.get('tel'),
                         email = self.cleaned_data.get('email'),
                         image = self.cleaned_data.get('image'),
+                        endereco = self.cleaned_data.get('endereco'),
                         horario_inicio = self.cleaned_data.get('horario_inicio'),
                         horario_fim = self.cleaned_data.get('horario_fim'),
                         seg = self.cleaned_data.get('seg'),

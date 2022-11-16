@@ -7,6 +7,12 @@ class User(AbstractUser):
     is_empresa = models.BooleanField(default = False)
     is_cliente = models.BooleanField(default = False)
 
+class Tags(models.Model):
+    name = models.CharField(max_length=250)
+
+    def __str__(self):
+        return '#{}'.format(self.name)
+
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     cpf = models.CharField(unique = True, max_length=11)
@@ -39,13 +45,7 @@ class Empresa(models.Model):
     sex = models.BooleanField(default = False, blank= True)
     sab = models.BooleanField(default = False, blank= True)
     desc = models.CharField(max_length=200, default='')
-
+    tags = models.ManyToManyField(Tags)
+    
     def __str__(self):
         return f"{self.nome_fantasia}"
-
-class Tags(models.Model):
-    name = models.CharField(max_length=250)
-    empresa = models.ManyToManyField(Empresa, null = True, blank=True)
-
-    def __str__(self):
-        return '#{}'.format(self.name)
