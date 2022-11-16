@@ -52,7 +52,7 @@ class ClienteSignUpForm(UserCreationForm):
 class EmpresaSignUpForm(UserCreationForm):
     cnpj = forms.CharField(max_length=14,min_length=14,required=True)
     razao_social = forms.CharField(required=True)
-    nome_empresa = forms.CharField(required=True)
+    nome_fantasia = forms.CharField(required=True)
     tel = forms.CharField(min_length=10, max_length=11,required=True)
     enderco = forms.CharField(required=True)
     email = forms.EmailField(required=True)
@@ -64,6 +64,7 @@ class EmpresaSignUpForm(UserCreationForm):
     sex = forms.BooleanField()
     sab = forms.BooleanField()
     dom = forms.BooleanField()
+    desc = forms.CharField(widget=forms.Textarea(attrs={'rows':'5'}))
 
     class Meta(UserCreationForm.Meta):
         model = User

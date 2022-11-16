@@ -26,7 +26,7 @@ class Empresa(models.Model):
     email = models.EmailField(unique = True)
     tel = models.CharField(unique = True,max_length=11)
     endereco = models.CharField(max_length=150)
-    nome_empresa = models.CharField(max_length=50)
+    nome_fantasia = models.CharField(max_length=50)
     image = models.URLField()
     dom = models.BooleanField(default = False)
     seg = models.BooleanField(default = False)
