@@ -29,7 +29,7 @@ class Cliente(models.Model):
 class Empresa(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
     razao_social = models.CharField(max_length= 200)
-    cnpj = models.IntegerField(unique = True)
+    cnpj = models.CharField(max_length=14,unique = True)
     horario_inicio = models.TimeField()
     horario_fim = models.TimeField()
     email = models.EmailField(unique = True)
