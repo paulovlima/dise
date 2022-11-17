@@ -3,12 +3,8 @@
 ### O que precisa ser feito:
 * Página Principal
     * Adicionar os perfis
-* Login dos usuários
-    * Empresa
-    * Cliente
+* ~~Login dos usuários~~
 * ~~Cadastro dos Usuários~~
-    * ~~Empresa~~
-    * ~~Cliente~~
 * Perfil dos Usuários
     * Empresa
     * Cliente

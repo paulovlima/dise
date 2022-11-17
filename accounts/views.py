@@ -17,8 +17,8 @@ def login_view(request):
             return redirect('index')
     else:
         form = AuthenticationForm(request)
-        context = {"form":form}
-    return render(request, "accounts/login.html",context)
+    context = {"form":form}
+    return render(request, "accounts/login_dise.html",context)
 
 class ClienteSingUpView(generic.CreateView):
     model = User
