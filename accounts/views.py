@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.shortcuts import redirect
 from .forms import ClienteSignUpForm, EmpresaSignUpForm
 from django.views import generic
 from .models import User
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 def login_view(request):
     if request.method == 'POST':
@@ -19,7 +20,11 @@ def login_view(request):
         form = AuthenticationForm(request)
     context = {"form":form}
     return render(request, "accounts/login_dise.html",context)
-
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('index')
+    
 class ClienteSingUpView(generic.CreateView):
     model = User
     form_class = ClienteSignUpForm
