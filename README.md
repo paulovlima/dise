@@ -6,8 +6,7 @@
 * ~~Login dos usuários~~
 * ~~Cadastro dos Usuários~~
 * Perfil dos Usuários
-    * Empresa
-    * Cliente
+    * ~~Link para o Perfil~~
 * Página de Agendamento
 * Confirmação de Agendamento
 * Página de Serviço Completo
