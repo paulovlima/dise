@@ -27,6 +27,7 @@
                 {% else %}
                 <li>Logado como {{ user.cliente.nome }}</li>
                 {% endif %}
+                <li><a href="{% url 'perfil' user.id %}">Editar o Perfil</a></li>
                 <li style="float:right"><a href="{% url 'logout' %}">Sair</a></li>
                 {% else %}
                 <li><a id = 'cadastro' href="{% url 'singup_empresa' %}">Cadastro Empresa</a></li>

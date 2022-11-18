@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if user.is_empresa %}
+Perfil: {{ user.empresa.razao_social }} 
+{% else %}
+Perfil: {{ user.cliente.nome }}
+{% endif %}
+{% endblock title %}
+
+{% block content %}
+O perfil baseado no figma
+{% endblock content %}
