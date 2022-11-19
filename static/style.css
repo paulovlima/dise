@@ -4,14 +4,14 @@
  }
 
  header#header-principal{
-   height: 75px;
+   height: 90px;
  }
 
  nav#nav-principal li{
     display: inline-block;
     padding-left: 10px;
     width: 150px;
-    height: 35px;
+
     
  }
  #login{
@@ -88,4 +88,35 @@
  }
  #pesquisa button:hover{
    background-color: #FDAD00;
+ }
+
+ #caixa-perfil{
+   height: 30px;
+   width: 400px;
+   display: grid;
+   grid-template-columns: 50% 50%;
+   grid-auto-rows: 50% 50%;
+   }
+
+ .foto-perfil{
+   grid-column: 1;
+   grid-row-start: 1;
+   grid-row-end: 3;
+   }
+
+   .editar-perfil{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      grid-row-start: 2;
+      grid-row-end: 3;
+   }
+
+ .nome-perfil{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   grid-row-start: 1;
+   grid-row-end: 2;
+   margin-top: 0px;
  }

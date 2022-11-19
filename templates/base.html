@@ -21,13 +21,16 @@
         <a href="{% url 'index' %}">Logo da DISE</a>
         <nav id = "nav-principal">
             <ul>
-                {% if user.is_authenticated and user.is_empresa %}
-                {% if user.is_empresa %}
-                <li>Logado como {{ user.empresa.nome_fantasia }}</li>
-                {% else %}
-                <li>Logado como {{ user.cliente.nome }}</li>
-                {% endif %}
-                <li><a href="{% url 'perfil' user.id %}">Editar o Perfil</a></li>
+                {% if user.is_authenticated %}
+                    <div id = "caixa-perfil">
+                        <a href="{% url 'perfil' user.id %}" class ="foto-perfil">Foto de perfil</a>
+                        {% if user.is_empresa %}
+                        <p class = 'nome-perfil'>Logado como {{ user.empresa.nome_fantasia }}</p>
+                        {% else %}
+                        <p class="nome-perfil">Logado como {{ user.cliente.nome }}</p>
+                        {% endif %}
+                        <a class="editar-perfil">Editar o Perfil</a>
+                    </div>
                 <li style="float:right"><a href="{% url 'logout' %}">Sair</a></li>
                 {% else %}
                 <li><a id = 'cadastro' href="{% url 'singup_empresa' %}">Cadastro Empresa</a></li>
