@@ -9,5 +9,15 @@ Perfil: {{ user.cliente.nome }}
 {% endblock title %}
 
 {% block content %}
-O perfil baseado no figma
+<div id = 'perfil-principal'>
+    {% if user.is_empresa %}
+    <div></div>
+    <img class ='imagem-perfil' src="{{ user.empresa.image }}"/>
+    <h2>{{ user.empresa.nome_fantasia }}</h2>
+    {% else %}
+    <img src="{{ user.cliente.image }}"/>
+    <h2>{{ user.cliente.nome }}</h2>
+    {% endif %}
+    
+</div>
 {% endblock content %}
