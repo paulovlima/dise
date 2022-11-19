@@ -23,7 +23,7 @@
             <ul>
                 {% if user.is_authenticated %}
                     <div id = "caixa-perfil">
-                        <a href="{% url 'perfil' user.id %}" class ="foto-perfil">Foto de perfil</a>
+                        <a href="{% url 'perfil' user.id %}" class ="foto-perfil"><img src="{{ user.empresa.image }}"/></a>
                         {% if user.is_empresa %}
                         <p class = 'nome-perfil'>Logado como {{ user.empresa.nome_fantasia }}</p>
                         {% else %}
