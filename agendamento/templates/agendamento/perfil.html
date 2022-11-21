@@ -1,38 +1,40 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{% if user.is_empresa %}
-Perfil: {{ user.empresa.razao_social }} 
+{% if perfil.is_empresa %}
+Perfil: {{ perfil.empresa.razao_social }} 
 {% else %}
-Perfil: {{ user.cliente.nome }}
+Perfil: {{ perfil.cliente.nome }}
 {% endif %}
 {% endblock title %}
 
 {% block content %}
 <div id = 'perfil-principal'>
-    {% if user.is_empresa %}
-    <img class ='imagem-perfil' src="{{ user.empresa.image }}"/>
-    <h2 style="font-family: 'Inder'">{{ user.empresa.nome_fantasia }}</h2>
+    {% if perfil.is_empresa %}
+    <img class ='imagem-perfil' src="{{ perfil.empresa.image }}"/>
+    <h2 style="font-family: 'Inder'">{{ perfil.empresa.nome_fantasia }}</h2>
     {% else %}
-    <img class ='imagem-perfil' src="{{ user.cliente.image }}"/>
-    <h2 style="font-family: 'Inder'">{{ user.cliente.nome }} {{ user.cliente.sobrenome }}</h2>
+    <img class ='imagem-perfil' src="{{ perfil.cliente.image }}"/>
+    <h2 style="font-family: 'Inder'">{{ perfil.cliente.nome }} {{ perfil.cliente.sobrenome }}</h2>
     {% endif %}
 </div>
-{% if user.is_empresa %}
+{% if perfil.is_empresa %}
 <div id = 'descricao'>
 <h3 class = 'subtitle'>Sua descrição</h3>
 <textarea readonly rows="7" cols="40">
-    {{ user.empresa.desc }}
+    {{ perfil.empresa.desc }}
 </textarea>
 </div>
 {% endif %}
 <div id = 'avaliacao'>
 <h3 style="font-family: 'Inder'"> Sua Avaliação</h3>
 <p> Aqui entrará a avaliação</p>
-<a class = 'edit' style="float:right; color: #8a8a8a"> Editar Perfil</a>
+{% if user.id == perfil.id %}
+<a href="{% url 'edit' perfil.id %}" class = 'edit' style="float:right; color: #8a8a8a"> Editar Perfil</a>
+{% endif %}
 <br>
 </div>
-{% if user.is_empresa %}
+{% if perfil.is_empresa %}
 <hr>
 <div id="comentario">
 <h3 style="font-family: 'Inder'"> Comentário</h3>

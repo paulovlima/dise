@@ -120,3 +120,62 @@ class EmpresaSignUpForm(UserCreationForm):
         empresa.tags.add(*self.cleaned_data.get('tags'))
         return user
         
+class EmpresaUpdate(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset= Tags.objects.all(),
+        required = True,
+        widget = forms.CheckboxSelectMultiple
+    )
+    tel = forms.CharField(min_length=10, max_length=11,required=True)
+    endereco = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
+    image = forms.URLField(required=True)
+    horario_inicio = forms.ChoiceField(choices= HOUR_CHOICES)
+    horario_fim = forms.ChoiceField(choices=HOUR_CHOICES)
+    seg = forms.BooleanField(required= False)
+    ter = forms.BooleanField(required= False)
+    qua = forms.BooleanField(required= False)
+    qui = forms.BooleanField(required= False)
+    sex = forms.BooleanField(required= False)
+    sab = forms.BooleanField(required= False)
+    dom = forms.BooleanField(required= False)
+    desc = forms.CharField(widget=forms.Textarea(attrs={'rows':'5','style':'resize: none;'}),required=False)
+
+    class Meta:
+        model = Empresa
+        fields = ('tags','tel','endereco','email','image',
+        'horario_inicio','horario_fim','seg','ter','qua','qui',
+        'sex','sab','dom','desc')
+        widgets = {'horario_inicio': forms.Select(choices=HOUR_CHOICES),
+                    'horario_fim':forms.Select(choices=HOUR_CHOICES)}
+    
+    def clean(self):
+        cd = self.cleaned_data
+        if not only_digits(cd.get('tel')):
+            self.add_error('tel','Insira um Telefone válido')
+        if not (cd.get('seg') or cd.get('ter') or cd.get('qua') or cd.get('qui') or cd.get('sex') or cd.get('sab') or cd.get('dom')):
+            self.add_error('dom','Selecione ao menos um dia da semana!')
+        if cd.get('horario_inicio') >= cd.get('horario_fim'):
+            self.add_error('horario_inicio','O horário de Inicio deve ser menor que o Horário de Saida')
+        return cd
+    
+    @transaction.atomic
+    def save(self):
+        user = super().save(commit=False)
+        empresa = Empresa.objects.get(user=user)
+        empresa.tags = self.cleaned_data.get('tags')
+        empresa.tel = self.cleaned_data.get('tel')
+        empresa.email = self.cleaned_data.get('email')
+        empresa.horario_inicio = self.cleaned_data.get('horario_inicio')
+        empresa.horario_fim = self.cleaned_data.get('horario_fim')
+        empresa.image = self.cleaned_data.get('image')
+        empresa.seg = self.cleaned_data.get('seg')
+        empresa.ter = self.cleaned_data.get('ter')
+        empresa.qua = self.cleaned_data.get('qua')
+        empresa.qui = self.cleaned_data.get('qui')
+        empresa.sex = self.cleaned_data.get('sex')
+        empresa.sab = self.cleaned_data.get('sab')
+        empresa.dom = self.cleaned_data.get('dom')
+        empresa.save()
+        user.save()
+        return user

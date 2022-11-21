@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link href="https://fonts.cdnfonts.com/css/bhavuka" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/inder" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'style_login.css' %}">
+    <script src = "{% static 'functions.js' %}" type="text/javascript"></script> 
+</head>
+<body>
+    <header id = "header-principal">
+        <a href="{% url 'index' %}">Logo da DISE</a>
+        <nav id = "nav-principal">
+            <ul>
+                {% if user.is_authenticated %}
+                    <div id = "caixa-perfil">
+                        {% if user.is_empresa %}
+                        <a href="{% url 'perfil' user.id %}" class ="foto-perfil"><img src="{{ user.empresa.image }}"/></a>
+                        <p class = 'nome-perfil'>{{ user.empresa.nome_fantasia }}</p>
+                        {% else %}
+                        <a href="{% url 'perfil' user.id %}" class ="foto-perfil"><img src="{{ user.cliente.image }}"/></a>
+                        <p class="nome-perfil">{{ user.cliente.nome }}</p>
+                        {% endif %}
+                    </div>
+                <li style="float:right"><a href="{% url 'logout' %}">Sair</a></li>
+                {% else %}
+                <li><a id = 'cadastro' href="{% url 'singup_empresa' %}">Cadastro Empresa</a></li>
+                <li><a id = 'cadastro' href="{% url 'singup_cliente' %}">Cadastro Usuário</a></li>
+                <li style="float:right"><a id='login' href="{% url 'login_dise' %}">Login</a></li>
+                {% endif %}
+
+                
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <main id ='main-principal'>
+        {% block content %}
+        {% endblock content %}
+    </main>
+    <footer id = "footer-principal">
+        <small>Copyright 2022</small>
+    </footer>
+</body>
+</html>

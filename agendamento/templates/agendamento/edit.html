@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Edite seu perfil
+{% endblock title %}
+
+{% block content %}
+{% if perfil.is_empresa %}
+<h2 style="font-family: 'Inder'">{{ perfil.empresa.nome_fantasia }}</h2>
+{% else %}
+<h2 style="font-family: 'Inder'">{{ perfil.cliente.nome }} {{ perfil.cliente.sobrenome }}</h2>
+{% endif %}
+<form method="post">
+    <div class="container2" style="font-family: 'Inder';">
+        {% csrf_token %}
+        <div class="box3">
+            <p>Endereço</p>
+            {{form.endereco}}
+            <p>Telefone</p>
+            {{form.tel}}
+        </div>
+        <div class="box4">
+            <p>Email</p>
+            {{form.email}}
+            <p>URL da sua Foto</p>
+            {{form.image}}
+        </div>
+        <br>
+        <div class = 'box5'>
+            <p>Selecione os Dias de Trabalho</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>{{form.dom}} Dom</td>
+                        <td>{{form.ter}} Ter</td>
+                        <td>{{form.qui}} Qui</td>
+                        <td>{{form.sab}} Sab</td>
+                    </tr>
+                    <tr>
+                        <td>{{form.seg}} Seg</td>
+                        <td>{{form.qua}} Qua</td>
+                        <td>{{form.sex}} Sex</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                </table>
+        </div>
+        <div></div>
+        <div>
+            <p>Horário de Inicio: 
+            {{form.horario_inicio}}</p>
+        </div>
+        <div>
+            <p>Horario de Fim:
+            {{form.horario_fim}}</p>
+        </div>
+        <div>
+            <p>Escolha suas áreas de atuação</p>
+            {{form.tags}}
+            {% if form.tags.errors %}
+            <li id="erro">{{ form.tags.errors|striptags }}</li>
+            {% endif %}
+            
+        </div>
+        <div></div>
+        <div><p>Adicione uma breve Descrição</p>
+        {{form.desc}}</div>
+        <br>
+        <button style="border-left-width: 0px;border-left-style: solid;border-top-width: 0px;border-top-style: solid;border-right-width: 0px;border-right-style: solid;border-bottom-width: 0px;border-bottom-style: solid;" id = 'login' type="submit">Salvar</button>
+        <br>
+    </div>
+</form>
+{% endblock content %}

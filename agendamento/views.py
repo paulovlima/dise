@@ -1,5 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from accounts.models import User
+from accounts.models import User, Tags
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from accounts.forms import EmpresaUpdate
 # Create your views here.
 
 def index(request):
@@ -8,6 +12,65 @@ def index(request):
     return render(request, 'agendamento/index.html', context)
 
 def perfil_view(request, user_id):
-    user = get_object_or_404(User, pk = user_id)
-    context = {'user':user}
+    perfil = get_object_or_404(User, pk = user_id)
+    context = {'perfil':perfil}
     return render(request, 'agendamento/perfil.html', context)
+
+@login_required
+def edit_perfil_view(request, user_id):
+    perfil = get_object_or_404(User, pk = user_id)
+    user = request.user
+    if perfil.id != user.id:
+        return HttpResponseRedirect(
+            reverse('index')
+        )
+    else:
+        if request.method == 'POST':
+            if perfil.is_empresa:
+                empresa = perfil.empresa
+                form = EmpresaUpdate(request.POST)
+                if form.is_valid():
+                    empresa.tags.set(form.cleaned_data.get('tags'))
+                    empresa.tel = form.cleaned_data.get('tel')
+                    empresa.email = form.cleaned_data.get('email')
+                    empresa.horario_inicio = form.cleaned_data.get('horario_inicio')
+                    empresa.horario_fim = form.cleaned_data.get('horario_fim')
+                    empresa.image = form.cleaned_data.get('image')
+                    empresa.seg = form.cleaned_data.get('seg')
+                    empresa.ter = form.cleaned_data.get('ter')
+                    empresa.qua = form.cleaned_data.get('qua')
+                    empresa.qui = form.cleaned_data.get('qui')
+                    empresa.sex = form.cleaned_data.get('sex')
+                    empresa.sab = form.cleaned_data.get('sab')
+                    empresa.dom = form.cleaned_data.get('dom')
+                    empresa.desc = form.cleaned_data.get('desc')
+                    empresa.save()
+                    return HttpResponseRedirect(
+                        reverse('perfil', args=(perfil.pk,))
+                        )
+        else:
+            if perfil.is_empresa:
+                empresa = perfil.empresa
+                form = EmpresaUpdate(
+                    initial={
+                        'tags':[
+                            tag for tag in empresa.tags.all().values_list("id", flat=True)
+                        ],
+                        'tel':empresa.tel,
+                        'endereco':empresa.endereco,
+                        'image':empresa.image,
+                        'horario_inicio':empresa.horario_inicio,
+                        'horario_fim': empresa.horario_fim,
+                        'email': empresa.email,
+                        'seg': empresa.seg,
+                        'ter': empresa.ter,
+                        'qua': empresa.qua,
+                        'qui': empresa.qui,
+                        'sex': empresa.sex,
+                        'sab': empresa.sab,
+                        'dom': empresa.dom,
+                        'desc': empresa.desc
+                    }
+                )
+        context = {'perfil':perfil, 'form': form}
+        return render(request, 'agendamento/edit.html', context)
