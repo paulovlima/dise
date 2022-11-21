@@ -21,30 +21,45 @@ Criar Usuário
             {{ form.username}}
         </div>
         <div class="box1">
-            <p>Senha</p>
-            {{form.password1}}
-            <p>Repita a Senha</p>
-            {{form.password2}}
+            <div><p>Senha</p>
+            {{form.password1}}</div>
+            <div><p>Repita a Senha</p>
+            {{form.password2}}</div>
         </div>
         <div class="box2">
+            <div>
                 <p>Nome</p>
                 {{form.nome}}
+            </div>
+            <div>
                 <p>Sobrenome</p>
                 {{form.sobrenome}}
+            </div>    
         </div>
+        <div></div>
         <div class="box3">
+            <div>
             <p>CPF</p>
             {{form.cpf}}
-            <p>Data de Nascimento</p>
-            {{form.nascimento}}
-            <p>Telefone</p>
-            {{form.tel}}
+            </div>
+            <div>
+                <p>Data de Nascimento</p>
+                {{form.nascimento}}
+            </div>
+            <div>
+                <p>Telefone</p>
+                {{form.tel}}
+            </div>
         </div>
         <div class="box4">
-            <p>Email</p>
-            {{form.email}}
-            <p>URL da sua Foto</p>
-            {{form.image}}
+            <div>
+                <p>Email</p>
+                {{form.email}}
+            </div>
+            <div>
+                <p>URL da sua Foto</p>
+                {{form.image}}
+            </div>
         </div>
         <br>
         <button id = 'login' type="submit">Criar</button>

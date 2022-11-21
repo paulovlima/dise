@@ -23,10 +23,11 @@
             <ul>
                 {% if user.is_authenticated %}
                     <div id = "caixa-perfil">
-                        <a href="{% url 'perfil' user.id %}" class ="foto-perfil"><img src="{{ user.empresa.image }}"/></a>
                         {% if user.is_empresa %}
+                        <a href="{% url 'perfil' user.id %}" class ="foto-perfil"><img src="{{ user.empresa.image }}"/></a>
                         <p class = 'nome-perfil'>{{ user.empresa.nome_fantasia }}</p>
                         {% else %}
+                        <a href="{% url 'perfil' user.id %}" class ="foto-perfil"><img src="{{ user.cliente.image }}"/></a>
                         <p class="nome-perfil">{{ user.cliente.nome }}</p>
                         {% endif %}
                     </div>

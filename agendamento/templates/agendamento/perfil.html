@@ -14,8 +14,8 @@ Perfil: {{ user.cliente.nome }}
     <img class ='imagem-perfil' src="{{ user.empresa.image }}"/>
     <h2 style="font-family: 'Inder'">{{ user.empresa.nome_fantasia }}</h2>
     {% else %}
-    <img src="{{ user.cliente.image }}"/>
-    <h2 style="font-family: 'Inder'">{{ user.cliente.nome }}</h2>
+    <img class ='imagem-perfil' src="{{ user.cliente.image }}"/>
+    <h2 style="font-family: 'Inder'">{{ user.cliente.nome }} {{ user.cliente.sobrenome }}</h2>
     {% endif %}
 </div>
 {% if user.is_empresa %}
@@ -29,7 +29,7 @@ Perfil: {{ user.cliente.nome }}
 <div id = 'avaliacao'>
 <h3 style="font-family: 'Inder'"> Sua Avaliação</h3>
 <p> Aqui entrará a avaliação</p>
-<a style="float:right; color: #8a8a8a"> Editar Perfil</a>
+<a class = 'edit' style="float:right; color: #8a8a8a"> Editar Perfil</a>
 <br>
 </div>
 {% if user.is_empresa %}

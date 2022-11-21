@@ -7,6 +7,9 @@
 * ~~Cadastro dos Usuários~~
 * Perfil dos Usuários
     * ~~Link para o Perfil~~
+    * Avaliação
+    * Comentarios sobre a empresa
+    * Página de edição
 * Página de Agendamento
 * Confirmação de Agendamento
 * Página de Serviço Completo

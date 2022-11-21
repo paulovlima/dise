@@ -97,9 +97,6 @@
    align-items: center;
    }
 
- .foto-perfil{
-   }
-
  .nome-perfil{
    display: flex;
    justify-content: center;
@@ -144,4 +141,7 @@
   margin-top: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
+ }
+ .edit:hover{
+  text-decoration: underline;
  }
