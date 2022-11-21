@@ -93,23 +93,11 @@
  #caixa-perfil{
    height: 30px;
    width: 250px;
-   display: grid;
-   grid-template-columns: 25% 75%;
-   grid-auto-rows: 25% 100%
+   display: flex;
+   align-items: center;
    }
 
  .foto-perfil{
-   grid-column: 1;
-   grid-row-start: 1;
-   grid-row-end: 3;
-   }
-
-   .editar-perfil{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      grid-row-start: 2;
-      grid-row-end: 3;
    }
 
  .nome-perfil{
@@ -121,18 +109,39 @@
    margin-top: 0px;
  }
  .foto-perfil img{
-   max-width:100%;
-   max-height:100%;
+   width: 55px;
+   height: 55px;
    border-radius: 100%;
+   border: 1px solid grey;
  }
 
  .imagem-perfil{
    width: 122px;
    height: 122px;
    border-radius: 100%;
+   border: 1px solid grey;
  }
 
  #perfil-principal{
    display: flex;
    align-items: center;
+ }
+
+ #descricao{
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+ }
+
+ #descricao textarea{
+  resize: none;
+  border-radius: 20px
+ }
+
+ #avaliacao{
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
  }

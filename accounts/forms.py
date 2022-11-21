@@ -74,7 +74,7 @@ class EmpresaSignUpForm(UserCreationForm):
     sex = forms.BooleanField(required= False)
     sab = forms.BooleanField(required= False)
     dom = forms.BooleanField(required= False)
-    desc = forms.CharField(widget=forms.Textarea(attrs={'rows':'5'}),required=False)
+    desc = forms.CharField(widget=forms.Textarea(attrs={'rows':'5','style':'resize: none;'}),required=False)
 
     class Meta(UserCreationForm.Meta):
         model = User
