@@ -1,14 +1,16 @@
 from django.shortcuts import render, get_object_or_404
-from accounts.models import User, Tags
+from accounts.models import User, Tags, Empresa
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from accounts.forms import EmpresaUpdate, ClienteUpdate
+from django.views import generic
 # Create your views here.
 
 def index(request):
     user = request.user
-    context = {'user':user}
+    empresa_list = Empresa.objects.all()
+    context = {'user':user, "empresa_list":empresa_list}
     return render(request, 'agendamento/index.html', context)
 
 def perfil_view(request, user_id):
