@@ -20,14 +20,22 @@ Perfil: {{ perfil.cliente.nome }}
 </div>
 {% if perfil.is_empresa %}
 <div id = 'descricao'>
+{% if user.id == perfil.id %}
 <h3 class = 'subtitle'>Sua descrição</h3>
+{% else %}
+<h3 class = 'subtitle'>Descrição</h3>
+{% endif %}
 <textarea readonly rows="7" cols="40">
     {{ perfil.empresa.desc }}
 </textarea>
 </div>
 {% endif %}
 <div id = 'avaliacao'>
+{% if user.id == perfil.id %}
 <h3 style="font-family: 'Inder'"> Sua Avaliação</h3>
+{% else %}
+<h3 style="font-family: 'Inder'"> Avaliação</h3>
+{% endif %}
 <p> Aqui entrará a avaliação</p>
 {% if user.id == perfil.id %}
 <a href="{% url 'edit' perfil.id %}" class = 'edit' style="float:right; color: #8a8a8a"> Editar Perfil</a>
