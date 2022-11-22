@@ -145,3 +145,7 @@
  .edit:hover{
   text-decoration: underline;
  }
+
+ #erro{
+  color:red;
+}

@@ -3,7 +3,7 @@ from accounts.models import User, Tags
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from accounts.forms import EmpresaUpdate
+from accounts.forms import EmpresaUpdate, ClienteUpdate
 # Create your views here.
 
 def index(request):
@@ -48,6 +48,17 @@ def edit_perfil_view(request, user_id):
                     return HttpResponseRedirect(
                         reverse('perfil', args=(perfil.pk,))
                         )
+            elif perfil.is_cliente:
+                cliente = perfil.cliente
+                form = ClienteUpdate(request.POST)
+                if form.is_valid():
+                    cliente.tel = form.cleaned_data.get('tel')
+                    cliente.email = form.cleaned_data.get('email')
+                    cliente.image = form.cleaned_data.get('image')
+                    cliente.save()
+                    return HttpResponseRedirect(
+                        reverse('perfil', args=(perfil.pk,))
+                        )
         else:
             if perfil.is_empresa:
                 empresa = perfil.empresa
@@ -70,6 +81,15 @@ def edit_perfil_view(request, user_id):
                         'sab': empresa.sab,
                         'dom': empresa.dom,
                         'desc': empresa.desc
+                    }
+                )
+            elif perfil.is_cliente:
+                cliente = perfil.cliente
+                form = ClienteUpdate(
+                    initial={
+                        'tel': cliente.tel,
+                        'email': cliente.email,
+                        'image': cliente.image
                     }
                 )
         context = {'perfil':perfil, 'form': form}

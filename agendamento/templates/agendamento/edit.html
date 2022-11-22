@@ -10,9 +10,16 @@ Edite seu perfil
 {% else %}
 <h2 style="font-family: 'Inder'">{{ perfil.cliente.nome }} {{ perfil.cliente.sobrenome }}</h2>
 {% endif %}
+{% for field in form %}
+    {% if field.errors %}
+        <li id="erro">{{ field.errors|striptags }}</li>
+    {% endif %}
+{% endfor %}
 <form method="post">
+    
     <div class="container2" style="font-family: 'Inder';">
         {% csrf_token %}
+        {% if perfil.is_empresa %}
         <div class="box3">
             <p>Endereço</p>
             {{form.endereco}}
@@ -65,6 +72,19 @@ Edite seu perfil
         <div></div>
         <div><p>Adicione uma breve Descrição</p>
         {{form.desc}}</div>
+        
+        {% else %}
+        <div class="box3">
+            <p>Telefone</p>
+            {{form.tel}}
+            <p>Email</p>
+            {{form.email}}
+        </div>
+        <div class="box4">
+            <p>URL da sua Foto</p>
+            {{form.image}}
+        </div>
+        {% endif %}
         <br>
         <button style="border-left-width: 0px;border-left-style: solid;border-top-width: 0px;border-top-style: solid;border-right-width: 0px;border-right-style: solid;border-bottom-width: 0px;border-bottom-style: solid;" id = 'login' type="submit">Salvar</button>
         <br>

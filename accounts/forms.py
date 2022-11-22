@@ -158,24 +158,18 @@ class EmpresaUpdate(forms.ModelForm):
         if cd.get('horario_inicio') >= cd.get('horario_fim'):
             self.add_error('horario_inicio','O horário de Inicio deve ser menor que o Horário de Saida')
         return cd
+
+class ClienteUpdate(forms.ModelForm):
+    email = forms.EmailField(required=True)
+    image = forms.URLField(required=True)
+    tel = forms.CharField(min_length=10, max_length=11,required=True)
+
+    class Meta:
+        model = Cliente
+        fields = ('email','tel','image')
     
-    @transaction.atomic
-    def save(self):
-        user = super().save(commit=False)
-        empresa = Empresa.objects.get(user=user)
-        empresa.tags = self.cleaned_data.get('tags')
-        empresa.tel = self.cleaned_data.get('tel')
-        empresa.email = self.cleaned_data.get('email')
-        empresa.horario_inicio = self.cleaned_data.get('horario_inicio')
-        empresa.horario_fim = self.cleaned_data.get('horario_fim')
-        empresa.image = self.cleaned_data.get('image')
-        empresa.seg = self.cleaned_data.get('seg')
-        empresa.ter = self.cleaned_data.get('ter')
-        empresa.qua = self.cleaned_data.get('qua')
-        empresa.qui = self.cleaned_data.get('qui')
-        empresa.sex = self.cleaned_data.get('sex')
-        empresa.sab = self.cleaned_data.get('sab')
-        empresa.dom = self.cleaned_data.get('dom')
-        empresa.save()
-        user.save()
-        return user
+    def clean(self):
+        cd = self.cleaned_data
+        if not only_digits(cd.get('tel')):
+            self.add_error('tel','Insira um telefone válido')
+        return cd
