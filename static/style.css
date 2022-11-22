@@ -1,6 +1,7 @@
  body{
     margin: 0px;
     background-color: #fff;
+    
  }
 
  header#header-principal{
@@ -11,9 +12,12 @@
     display: inline-block;
     padding-left: 10px;
     width: 150px;
-
-    
  }
+
+ #main-principal{
+  height:100vh;
+ }
+
  #login{
     border-radius: 13px;
     width: 150px;
@@ -148,4 +152,19 @@
 
  #erro{
   color:red;
+}
+
+ .lista-empresa{
+  font-family: "Inder";
+ }
+
+.empresa{
+  display: flex;
+  max-width: 100%;
+}
+.foto-empresa img{
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  border: 1px solid grey;
 }
