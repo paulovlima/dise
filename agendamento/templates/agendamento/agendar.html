@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ empresa.nome_fantasia}}
+{% endblock %}
+
+{% block content %}
+<div id = 'perfil-principal'>
+    <img class ='imagem-perfil' src="{{ empresa.image }}"/>
+    <div>
+        <h3 style="font-family: 'Inder'">{{ empresa.nome_fantasia }}</h3>
+        <p style='font-family: "Inder"'>{{ empresa.desc }}</p>
+        <p> Avaliação </p>
+    </div>
+    <div style="margin-left:auto;margin-right: 10%;margin-bottom: 8px;">
+        <p>Entre em contato:</p>
+        <p style="margin-top:0px">{{ empresa.tel }}</p>
+    </div>
+</div>
+<hr>
+{% endblock %}

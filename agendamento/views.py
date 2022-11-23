@@ -96,3 +96,13 @@ def edit_perfil_view(request, user_id):
                 )
         context = {'perfil':perfil, 'form': form}
         return render(request, 'agendamento/edit.html', context)
+
+def agendamento_view(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if user.is_cliente:
+        return HttpResponseRedirect(
+            reverse('index')
+        )
+    empresa = user.empresa
+    context = {'empresa': empresa}
+    return render(request, 'agendamento/agendar.html', context)

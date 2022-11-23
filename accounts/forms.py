@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 from .models import User, Cliente, Empresa, Tags
-from dise import settings
 import datetime as dt
 
 YEARS_CHOICE = [str(i) for i in range(1940,2007)]
