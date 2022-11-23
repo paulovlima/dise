@@ -1,4 +1,5 @@
 from django import forms
+from accounts.models import *
 from .models import Servico, Pagamento, CommentCliente, CommentEmpresa
 from datetime import date, timedelta
 import datetime as dt
@@ -10,10 +11,22 @@ def valid_dates(weekdays):
     cont = 0
     while len(CHOICES) != 14:
         if weekdays[days_map[date.today().isoweekday()]]:
-            CHOICES.append(('{0}/{1}'.format((date.today()+timedelta(days=cont)).day,(date.today()+timedelta(days=cont)).month),date.today()+timedelta(days=cont)))
+            CHOICES.append((date.today()+timedelta(days=cont),'{0}/{1}'.format((date.today()+timedelta(days=cont)).day,(date.today()+timedelta(days=cont)).month)))
             cont += 1
     return CHOICES
 
 class ServicoForm(forms.ModelForm):
-    def __init__(self, weekdays):
-        pass
+    data_agendada = forms.ChoiceField(widget=forms.RadioSelect)
+    hora_agendada = forms.ChoiceField(choices=HOUR_CHOICES)
+    cliente = forms.ModelChoiceField(required=False,queryset=Cliente.objects.all())
+    empresa = forms.ModelChoiceField(required=False,queryset=Empresa.objects.all())
+    orcamento = forms.DecimalField(min_value=0,max_digits=6,decimal_places=2)
+    status = forms.CharField()
+    desc = forms.CharField()
+    def __init__(self, weekdays, *args, **kwargs):
+        super(ServicoForm, self ).__init__(*args, **kwargs)
+        self.fields['data_agendada'] = forms.ChoiceField(choices= valid_dates(weekdays), widget=forms.RadioSelect)
+        
+    class Meta:
+        model = Servico
+        fields = ('data_agendada','hora_agendada','cliente','empresa','orcamento','status','desc')

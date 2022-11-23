@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from accounts.forms import EmpresaUpdate, ClienteUpdate
+from .forms import ServicoForm
+from .models import Servico
 from django.views import generic
 # Create your views here.
 
@@ -104,5 +106,27 @@ def agendamento_view(request, user_id):
             reverse('index')
         )
     empresa = user.empresa
-    context = {'empresa': empresa}
+    weekday = {'seg':empresa.seg,
+                'ter': empresa.ter,
+                'qua': empresa.qua,
+                'qui': empresa.qui,
+                'sex': empresa.sex,
+                'sab': empresa.sab,
+                'dom': empresa.dom
+    }
+    form = ServicoForm(weekdays= weekday)
+    if request.method == 'POST':
+        if form.is_valid():
+            servico = Servico(
+                cliente = request.user.cliente,
+                empresa = empresa,
+                orcamento = form.cleaned_data.get('orcamento'),
+                hora_agendada = form.cleaned_data.get('hora_agendada'),
+                data_agendada = form.cleaned_data.get('data_agendada'),
+                status = 'ESPERANDO',
+                desc = form.cleaned_data.get('desc')
+            )
+
+    
+    context = {'empresa': empresa, 'form': form}
     return render(request, 'agendamento/agendar.html', context)

@@ -18,4 +18,8 @@
     </div>
 </div>
 <hr>
+<form method="post">
+    {% csrf_token %}
+    {{ form.data_agendada }}
+</form>
 {% endblock %}

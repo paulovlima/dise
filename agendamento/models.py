@@ -12,6 +12,7 @@ class Servico(models.Model):
     hora_agendada = models.TimeField()
     endereco_agendado = models.CharField(max_length = 200)
     status = models.CharField(max_length = 200)
+    desc = models.CharField(max_length= 500,default='')
 
 class Pagamento(models.Model):
     valor_pagar = models.DecimalField(max_digits=6,decimal_places=2, default=0)
