@@ -11,6 +11,8 @@
     * Comentarios sobre a empresa
     * ~~Página de edição~~
 * Página de Agendamento
+    * CSS
+    * Resto dos Templates
 * Confirmação de Agendamento
 * Página de Serviço Completo
 * Comentários e Pontuação
