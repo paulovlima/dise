@@ -20,6 +20,7 @@ def login_view(request):
         form = AuthenticationForm(request)
     context = {"form":form}
     return render(request, "accounts/login_dise.html",context)
+    
 @login_required
 def logout_view(request):
     logout(request)

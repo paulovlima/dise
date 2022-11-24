@@ -10,9 +10,9 @@ def valid_dates(weekdays):
     CHOICES = []
     cont = 0
     while len(CHOICES) != 14:
-        if weekdays[days_map[date.today().isoweekday()]]:
+        if weekdays[days_map[(date.today()+timedelta(days=cont)).isoweekday()]]:
             CHOICES.append((date.today()+timedelta(days=cont),'{0}/{1}'.format((date.today()+timedelta(days=cont)).day,(date.today()+timedelta(days=cont)).month)))
-            cont += 1
+        cont += 1
     return CHOICES
 
 class ServicoForm(forms.ModelForm):
@@ -25,7 +25,7 @@ class ServicoForm(forms.ModelForm):
     desc = forms.CharField()
     def __init__(self, weekdays, *args, **kwargs):
         super(ServicoForm, self ).__init__(*args, **kwargs)
-        self.fields['data_agendada'] = forms.ChoiceField(choices= valid_dates(weekdays), widget=forms.RadioSelect)
+        self.fields['data_agendada'] = forms.ChoiceField(choices= valid_dates(weekdays), widget=forms.RadioSelect(attrs={'id':'dias-semana'}))
         
     class Meta:
         model = Servico
