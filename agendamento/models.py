@@ -5,7 +5,6 @@ from datetime import date
 # Create your models here.
 
 class Servico(models.Model):
-    orcamento = models.DecimalField(max_digits=6,decimal_places=2, default=0)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     data_agendada = models.DateField(default=date.today())
@@ -14,6 +13,9 @@ class Servico(models.Model):
     status = models.CharField(max_length = 200)
     desc = models.CharField(max_length= 500,default='')
 
+    def __str__(self):
+        return f'Serviço de {self.empresa} para {self.cliente}'
+        
 class Pagamento(models.Model):
     valor_pagar = models.DecimalField(max_digits=6,decimal_places=2, default=0)
     servico = models.OneToOneField(Servico, on_delete=models.CASCADE)

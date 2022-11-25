@@ -2,7 +2,8 @@
 
 ### O que precisa ser feito:
 * Página Principal
-    * Adicionar os perfis
+    ~~* Adicionar os perfis~~
+    * Ranquear por Avaliação
 * ~~Login dos usuários~~
 * ~~Cadastro dos Usuários~~
 * Perfil dos Usuários
@@ -11,8 +12,7 @@
     * Comentarios sobre a empresa
     * ~~Página de edição~~
 * Página de Agendamento
-    * CSS
-    * Resto dos Templates
+    * Adicionar Comentários
 * Confirmação de Agendamento
 * Página de Serviço Completo
 * Comentários e Pontuação

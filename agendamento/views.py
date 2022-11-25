@@ -100,12 +100,12 @@ def edit_perfil_view(request, user_id):
         return render(request, 'agendamento/edit.html', context)
 
 def agendamento_view(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    if user.is_cliente:
+    perfil = get_object_or_404(User, pk=user_id)
+    if perfil.is_cliente:
         return HttpResponseRedirect(
             reverse('index')
         )
-    empresa = user.empresa
+    empresa = perfil.empresa
     weekday = {'seg':empresa.seg,
                 'ter': empresa.ter,
                 'qua': empresa.qua,
@@ -116,17 +116,25 @@ def agendamento_view(request, user_id):
     }
     form = ServicoForm(weekdays= weekday, hora_inicio=empresa.horario_inicio, hora_saida= empresa.horario_fim)
     if request.method == 'POST':
+        form = ServicoForm(weekday, empresa.horario_inicio, empresa.horario_fim, request.POST)
         if form.is_valid():
             servico = Servico(
                 cliente = request.user.cliente,
                 empresa = empresa,
-                orcamento = form.cleaned_data.get('orcamento'),
                 hora_agendada = form.cleaned_data.get('hora_agendada'),
                 data_agendada = form.cleaned_data.get('data_agendada'),
+                endereco_agendado = form.cleaned_data.get('endereco_agendado'),
                 status = 'ESPERANDO',
-                desc = form.cleaned_data.get('desc')
+                desc = form.cleaned_data.get('desc'),
             )
-
-    
+            servico.save()
+            return HttpResponseRedirect(
+                reverse('agendamento_completo',)
+            )
+        else:
+            print(form.errors.as_data())
     context = {'empresa': empresa, 'form': form}
     return render(request, 'agendamento/agendar.html', context)
+
+def agendamento_completo(request):
+    return render(request, 'agendamento/completo.html', {})
