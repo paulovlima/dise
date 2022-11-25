@@ -114,7 +114,7 @@ def agendamento_view(request, user_id):
                 'sab': empresa.sab,
                 'dom': empresa.dom
     }
-    form = ServicoForm(weekdays= weekday)
+    form = ServicoForm(weekdays= weekday, hora_inicio=empresa.horario_inicio, hora_saida= empresa.horario_fim)
     if request.method == 'POST':
         if form.is_valid():
             servico = Servico(

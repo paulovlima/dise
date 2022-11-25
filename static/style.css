@@ -3,7 +3,6 @@
     background-color: #fff;
     
  }
-
  header#header-principal{
    height: 90px;
  }
@@ -171,4 +170,17 @@
 
 #dias-semana li{
   display: inline-block;
+}
+
+#horario-endereco{
+  display: flex;
+}
+
+#desc-agendamento{
+  margin-left: 5%;
+  margin-top: 5%;
+}
+
+#datas{
+  margin-left:5%
 }

@@ -18,8 +18,32 @@
     </div>
 </div>
 <hr>
+<div id = 'agendamento-area' style="font-family: 'Inder'">
 <form method="post">
     {% csrf_token %}
+    <div id="datas">
+        <p>Selecione um dia:</p>
     {{ form.data_agendada }}
+    </div>
+    <div id="horario-endereco">
+        <div style="margin-left:5%">
+            <p> Horário: </p>
+        {{ form.hora_agendada }}
+        </div>
+        <div style="margin-left:20%">
+            <p>Endereço</p>
+            {{ form.endereco_agendado }}    
+        </div>
+    </div>
+    <div id="desc-agendamento" style="margin-left:5%; margin-top: 5%;">
+        <p>
+            Descreva seu pedido!
+        </p>
+        {{ form.desc }}
+    </div>
+    <div id="login", style="display: flex; margin-left:auto; margin-right:15%;margin-top:5%;">
+        <button style="border-left-width: 0px;border-left-style: solid;border-top-width: 0px;border-top-style: solid;border-right-width: 0px;border-right-style: solid;border-bottom-width: 0px;border-bottom-style: solid;" id = 'login' type="submit">Agendar</button>
+    </div>
 </form>
+</div>
 {% endblock %}

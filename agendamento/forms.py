@@ -1,7 +1,7 @@
 from django import forms
 from accounts.models import *
 from .models import Servico, Pagamento, CommentCliente, CommentEmpresa
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import datetime as dt
 
 HOUR_CHOICES = [(dt.time(hour=x), '{:02d}:00'.format(x)) for x in range(0, 24)]
@@ -15,18 +15,22 @@ def valid_dates(weekdays):
         cont += 1
     return CHOICES
 
+def valid_hour(hora_inicio, hora_fim):
+    return [(dt.time(hour=x), '{:02d}:00'.format(x)) for x in range(hora_inicio.hour, hora_fim.hour+1)]
+
 class ServicoForm(forms.ModelForm):
     data_agendada = forms.ChoiceField(widget=forms.RadioSelect)
     hora_agendada = forms.ChoiceField(choices=HOUR_CHOICES)
+    endereco_agendado = forms.CharField(max_length=200)
     cliente = forms.ModelChoiceField(required=False,queryset=Cliente.objects.all())
     empresa = forms.ModelChoiceField(required=False,queryset=Empresa.objects.all())
     orcamento = forms.DecimalField(min_value=0,max_digits=6,decimal_places=2)
     status = forms.CharField()
-    desc = forms.CharField()
-    def __init__(self, weekdays, *args, **kwargs):
-        super(ServicoForm, self ).__init__(*args, **kwargs)
+    desc = forms.CharField(widget=forms.Textarea(attrs={'rows':'5','cols':'40','style':'resize:none'}))
+    def __init__(self, weekdays,hora_inicio, hora_saida):
+        super(ServicoForm, self ).__init__()
         self.fields['data_agendada'] = forms.ChoiceField(choices= valid_dates(weekdays), widget=forms.RadioSelect(attrs={'id':'dias-semana'}))
-        
+        self.fields['hora_agendada'] = forms.ChoiceField(choices=valid_hour(hora_inicio,hora_saida))
     class Meta:
         model = Servico
-        fields = ('data_agendada','hora_agendada','cliente','empresa','orcamento','status','desc')
+        fields = ('endereco_agendado','data_agendada','hora_agendada','cliente','empresa','orcamento','status','desc')
