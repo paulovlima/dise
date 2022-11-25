@@ -25,7 +25,7 @@ class ServicoForm(forms.ModelForm):
     cliente = forms.ModelChoiceField(required=False,queryset=Cliente.objects.all())
     empresa = forms.ModelChoiceField(required=False,queryset=Empresa.objects.all())
     status = forms.CharField(required=False)
-    desc = forms.CharField(widget=forms.Textarea(attrs={'rows':'5','cols':'40','style':'resize:none'}))
+    desc = forms.CharField(widget=forms.Textarea(attrs={'rows':'7','cols':'40','style':'resize:none'}))
 
     def __init__(self, weekdays,hora_inicio, hora_saida, *args, **kwargs):
         super(ServicoForm, self ).__init__(*args, **kwargs)
