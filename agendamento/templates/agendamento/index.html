@@ -5,13 +5,15 @@ Página Principal
 {% endblock title %}
 
 {% block content %}
-<div id = 'pesquisa'>
-    <p>
-        <label for="id_query"></label>
-        <input type="text" name='query' id = 'id_query' placeholder='Pesquise o nome'/>
-        <button type="submit"></button>
-    </p>
-</div>
+<form action="{% url 'index' %}">
+    <div id = 'pesquisa'>
+        <p>
+            <label for="id_query"></label>
+            <input type="text" name='query' id = 'id_query' placeholder='Pesquise o nome'/>
+        </p>
+        <button type="submit">Buscar</button>
+    </div>
+</form>
 <div id='lista-tags'><p>Aqui entrerá as TAGS</p></div>
 <h2 class = 'subtitle'>Os mais bem avalidados</h2>
 <hr>

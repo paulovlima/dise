@@ -11,7 +11,12 @@ from django.views import generic
 
 def index(request):
     user = request.user
-    empresa_list = Empresa.objects.all()
+    if request.GET.get('query',False):
+        search_term = request.GET['query'].lower()
+        if search_term != '':
+            empresa_list = Empresa.objects.filter(nome_fantasia__icontains=search_term)
+    else:
+        empresa_list = Empresa.objects.all()    
     context = {'user':user, "empresa_list":empresa_list}
     return render(request, 'agendamento/index.html', context)
 

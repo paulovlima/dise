@@ -22,6 +22,7 @@
         <nav id = "nav-principal">
             <ul>
                 {% if user.is_authenticated %}
+                <li style="margin-right:10%;">
                     <div id = "caixa-perfil">
                         {% if user.is_empresa %}
                         <a href="{% url 'perfil' user.id %}" class ="foto-perfil"><img src="{{ user.empresa.image }}"/></a>
@@ -31,6 +32,8 @@
                         <p class="nome-perfil">{{ user.cliente.nome }}</p>
                         {% endif %}
                     </div>
+                </li>    
+                <li><a>Agendamentos</a></li>
                 <li style="float:right"><a href="{% url 'logout' %}">Sair</a></li>
                 {% else %}
                 <li><a id = 'cadastro' href="{% url 'singup_empresa' %}">Cadastro Empresa</a></li>
