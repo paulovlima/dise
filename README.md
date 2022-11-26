@@ -4,6 +4,7 @@
 * Página Principal
     ~~* Adicionar os perfis~~
     * Ranquear por Avaliação
+    ~~* Pesquisa por nome e por tag~~
 * ~~Login dos usuários~~
 * ~~Cadastro dos Usuários~~
 * Perfil dos Usuários

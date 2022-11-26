@@ -11,13 +11,14 @@ from django.views import generic
 
 def index(request):
     user = request.user
+    tags = Tags.objects.all()
     if request.GET.get('query',False):
         search_term = request.GET['query'].lower()
         if search_term != '':
             empresa_list = Empresa.objects.filter(nome_fantasia__icontains=search_term)
     else:
         empresa_list = Empresa.objects.all()    
-    context = {'user':user, "empresa_list":empresa_list}
+    context = {'user':user, "empresa_list":empresa_list,'tags':tags}
     return render(request, 'agendamento/index.html', context)
 
 def perfil_view(request, user_id):
@@ -143,3 +144,15 @@ def agendamento_view(request, user_id):
 
 def agendamento_completo(request):
     return render(request, 'agendamento/completo.html', {})
+
+def tag_view(request, tag_name):
+    tag = get_object_or_404(Tags, name=tag_name)
+    tags = Tags.objects.all()
+    if request.GET.get('query',False):
+        search_term = request.GET['query'].lower()
+        if search_term != '':
+            empresa_list = tag.empresa_set.filter(nome_fantasia__icontains=search_term)
+    else:
+        empresa_list = tag.empresa_set.all()    
+    context = {"empresa_list":empresa_list,'tag':tag, 'tags':tags}
+    return render(request, 'agendamento/tags.html', context)

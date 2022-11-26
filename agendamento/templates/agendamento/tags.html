@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Página Principal
+Pesquisar: {{ tag.name }}
 {% endblock title %}
 
 {% block content %}
-<form action="{% url 'index' %}">
+<form action="{% url 'search_tag' tag.name %}">
     <div id = 'pesquisa'>
         <p>
             <label for="id_query"></label>
@@ -21,7 +21,7 @@ Página Principal
     </a>
     {% endfor %}
 </div>
-<h2 class = 'subtitle'>Os mais bem avalidados</h2>
+<h2 class = 'subtitle'>Aqui está o resultado da busca para {{ tag.name }}</h2>
 <hr>
 {% if empresa_list %}
 <section class = 'lista-empresa'>
