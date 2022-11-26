@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if perfil.is_empresa %}
+Agendamento: {{ perfil.empresa.razao_social }} 
+{% else %}
+Agendamento: {{ perfil.cliente.nome }}
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if servicos %}
+{% if perfil.is_cliente %}
+<h3 style="font-family:'Inter'">Você tem {{ servicos.count }} agendamentos aguardando confirmação </h3>
+<section class="servicos-list">
+    <hr>
+{% for servico in servicos %}
+<article class="servico">
+    <p>Prestador: {{ servico.empresa.nome_fantasia }}</p>
+    <p>Hora Agendada: {{ servico.hora_agendada }}</p>
+    <p>Local Agendado: {{ servico.endereco_agendado }}</p>
+    <p> Descrição: {{ servico.desc }}</p>
+</article>
+<hr>
+{% endfor %}
+</section>
+{% else %}
+<h3 style="font-family:'Inter'">Você tem {{ servicos.count }} agendamentos aguardando sua confirmação </h3>
+<section class="servicos-list">
+    <hr>
+{% for servico in servicos %}
+<article class="servico">
+    <p>Cliente: <a href ="{% url 'perfil' servico.cliente.user.id %}">{{ servico.cliente.nome }} {{ servico.cliente.sobrenome }}</a></p>
+    <p>Hora Agendada: {{ servico.hora_agendada }}</p>
+    <p>Local Agendado: {{ servico.endereco_agendado }}</p>
+    <p> Descrição: {{ servico.desc }}</p>
+</article>
+<hr>
+{% endfor %}
+</section>
+{% endif %}
+{% endif %}
+{% endblock %}

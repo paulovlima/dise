@@ -2,9 +2,9 @@
 
 ### O que precisa ser feito:
 * Página Principal
-    ~~* Adicionar os perfis~~
+    * ~~Adicionar os perfis~~
     * Ranquear por Avaliação
-    ~~* Pesquisa por nome e por tag~~
+    * ~~Pesquisa por nome e por tag~~
 * ~~Login dos usuários~~
 * ~~Cadastro dos Usuários~~
 * Perfil dos Usuários

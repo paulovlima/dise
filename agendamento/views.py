@@ -156,3 +156,19 @@ def tag_view(request, tag_name):
         empresa_list = tag.empresa_set.all()    
     context = {"empresa_list":empresa_list,'tag':tag, 'tags':tags}
     return render(request, 'agendamento/tags.html', context)
+
+def servico_view(request, user_id):
+    user = request.user
+    perfil = get_object_or_404(User, pk=user_id)
+    if perfil.id != user.id:
+        return HttpResponseRedirect(
+            reverse('index')
+        )
+    if perfil.is_cliente:
+        cliente = perfil.cliente
+        servicos = Servico.objects.filter(cliente = cliente,status = 'ESPERANDO')
+    else:
+        empresa = perfil.empresa
+        servicos = Servico.objects.filter(empresa= empresa, status = 'ESPERANDO')
+    context = {'servicos': servicos, 'perfil':perfil}
+    return render(request,'agendamento/agend_list.html', context)

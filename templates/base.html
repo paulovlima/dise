@@ -33,7 +33,7 @@
                         {% endif %}
                     </div>
                 </li>    
-                <li><a>Agendamentos</a></li>
+                <li><a href="{% url 'lista_servicos' user.id %}">Agendamentos</a></li>
                 <li style="float:right"><a href="{% url 'logout' %}">Sair</a></li>
                 {% else %}
                 <li><a id = 'cadastro' href="{% url 'singup_empresa' %}">Cadastro Empresa</a></li>
