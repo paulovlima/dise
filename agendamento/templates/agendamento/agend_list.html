@@ -9,11 +9,6 @@ Agendamento: {{ perfil.cliente.nome }}
 {% endblock %}
 
 {% block content %}
-{% if servicos %}
-{% if perfil.is_cliente %}
-<h3 style="font-family:'Inter'">Você tem {{ servicos.count }} agendamentos aguardando confirmação </h3>
-<section class="servicos-list">
-    <hr>
     <script>
         function expandir(servico_id) {
     var moreServ = document.getElementById('mais'+servico_id);
@@ -28,6 +23,11 @@ Agendamento: {{ perfil.cliente.nome }}
     }
 }
     </script>
+{% if servicos %}
+{% if perfil.is_cliente %}
+<h3 style="font-family:'Inter'">Você tem {{ servicos.count }} agendamentos aguardando confirmação </h3>
+<section class="servicos-list">
+    <hr>
 {% for servico in servicos %}
 <article id="servico">
     <div id="servico-empresa">
@@ -39,7 +39,10 @@ Agendamento: {{ perfil.cliente.nome }}
     </div>
     <span id = 'mais{{ servico.id }}' style="display:none">
         <p>Descrição:</p> <textarea rows="7" cols="40" readonly style="resize:none;border-radius: 10px;margin-left: 2%;">{{ servico.desc }}</textarea>
-        
+        <form method="get" action="{% url 'lista_servicos' user.id %}">
+            <br>
+            <button style='background-color: rgb(235, 16, 16);'type="submit" value="{{servico.id}}" name="cancel">Cancelar</button>
+        </form>
     </span>
     <button onClick="expandir({{ servico.id }})" id='expandBtn{{servico.id}}' style='float:right;border-radius: 10px;margin-left: 2%;'>Expandir</button>
 </article>
@@ -51,12 +54,24 @@ Agendamento: {{ perfil.cliente.nome }}
 <section class="servicos-list">
     <hr>
 {% for servico in servicos %}
-<article class="servico">
-    <p>Cliente: <a href ="{% url 'perfil' servico.cliente.user.id %}">{{ servico.cliente.nome }} {{ servico.cliente.sobrenome }}</a></p>
-    <p>Hora Agendada: {{ servico.hora_agendada }}</p>
-    <p>Local Agendado: {{ servico.endereco_agendado }}</p>
-    <p> Descrição: {{ servico.desc }}</p>
-    <p>Data Agendada: {{ servico.data_agendada }}</p>
+<article id="servico">
+    <div id="servico-empresa">
+    <h4>{{ servico.cliente.nome }} {{ servico.cliente.sobrenome }}</h4>    
+    </div>
+    <div id="servico-horas">    
+        <p>Serviço agendado para: {{ servico.data_agendada }} às {{ servico.hora_agendada }}</p>
+        <p>Local Agendado: {{ servico.endereco_agendado }}</p>
+    </div>
+    <span id = 'mais{{ servico.id }}' style="display:none">
+        <p>Descrição:</p> <textarea rows="7" cols="40" readonly style="resize:none;border-radius: 10px;margin-left: 2%;">{{ servico.desc }}</textarea>
+        <form method="get" action="{% url 'lista_servicos' user.id %}">
+            <br>
+            <button style='background-color: rgb(214, 20, 20);'type="submit" value="{{servico.id}}" name="cancel">Cancelar</button>
+            <button style='background-color: rgb(20, 214, 65);''><a>Fazer Orçamento!</a></button>
+
+        </form>
+    </span>
+    <button onClick="expandir({{ servico.id }})" id='expandBtn{{servico.id}}' style='float:right;border-radius: 10px;margin-left: 2%;'>Expandir</button>
 </article>
 <hr>
 {% endfor %}

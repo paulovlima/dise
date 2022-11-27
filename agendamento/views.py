@@ -160,6 +160,11 @@ def tag_view(request, tag_name):
 def servico_view(request, user_id):
     user = request.user
     perfil = get_object_or_404(User, pk=user_id)
+    if request.GET.get('cancel',False):
+        cancelado =request.GET['cancel']
+        serv_cancelado = get_object_or_404(Servico,pk=cancelado)
+        serv_cancelado.status = 'CANCELADO'
+        serv_cancelado.save()
     if perfil.id != user.id:
         return HttpResponseRedirect(
             reverse('index')
