@@ -242,3 +242,25 @@
 #tags:hover{
   text-decoration: underline;
 }
+
+#servico{
+  border: solid black 1.5px;
+  border-radius: 10px;
+  font-family: "Inter";
+  padding-bottom: 7%;
+  margin-left: 2%;
+}
+
+#servico button{
+  margin-right: 2%;
+  background-color: #FDAD00;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+}
+
+#servico button:hover{
+  cursor: pointer;
+  background-color: #eba205;
+}
