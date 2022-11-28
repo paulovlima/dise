@@ -196,6 +196,7 @@ def orcamento_view(request, servico_id):
                 status = 'AGUARDANDO'
             )
             servico.status = 'PAGAMENTO'
+            servico.save()
             pagamento.save()
             return HttpResponseRedirect(
         reverse('lista_servico', args=(user.id,)))
