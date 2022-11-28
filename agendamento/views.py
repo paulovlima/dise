@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from accounts.forms import EmpresaUpdate, ClienteUpdate
-from .forms import ServicoForm
-from .models import Servico
+from .forms import ServicoForm, PagamentoForm
+from .models import Servico, Pagamento
 from django.views import generic
 # Create your views here.
 
@@ -132,13 +132,12 @@ def agendamento_view(request, user_id):
                 endereco_agendado = form.cleaned_data.get('endereco_agendado'),
                 status = 'ESPERANDO',
                 desc = form.cleaned_data.get('desc'),
+                orcamento = 0
             )
             servico.save()
             return HttpResponseRedirect(
                 reverse('agendamento_completo',)
             )
-        else:
-            print(form.errors.as_data())
     context = {'empresa': empresa, 'form': form}
     return render(request, 'agendamento/agendar.html', context)
 
@@ -177,3 +176,28 @@ def servico_view(request, user_id):
         servicos = Servico.objects.filter(empresa= empresa, status = 'ESPERANDO')
     context = {'servicos': servicos, 'perfil':perfil}
     return render(request,'agendamento/agend_list.html', context)
+
+def orcamento_view(request, servico_id):
+    user = request.user
+    servico = get_object_or_404(Servico, pk = servico_id)
+    if user.is_cliente or user.id != servico.empresa.user.id:
+        return HttpResponseRedirect(
+            reverse('perfil', args=(user.id,))
+        )
+    form = PagamentoForm()
+    if request.method == 'POST':
+        form = PagamentoForm(request.POST)
+        if form.is_valid():
+            pagamento = Pagamento(
+                valor_pagar = form.cleaned_data.get('valor_pagar'),
+                cliente = servico.cliente,
+                empresa = servico.empresa,
+                servico = servico,
+                status = 'AGUARDANDO'
+            )
+            servico.status = 'PAGAMENTO'
+            pagamento.save()
+            return HttpResponseRedirect(
+        reverse('lista_servico', args=(user.id,)))
+    context = {'servico':servico, 'form': form}
+    return render(request,'agendamento/orcamento.html',context)

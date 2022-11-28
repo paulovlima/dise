@@ -35,3 +35,14 @@ class ServicoForm(forms.ModelForm):
     class Meta:
         model = Servico
         fields = ('endereco_agendado','data_agendada','hora_agendada','cliente','empresa','status','desc')
+
+class PagamentoForm(forms.ModelForm):
+    valor_pagar = forms.DecimalField(max_digits=6,decimal_places=2)
+    servico = forms.ModelChoiceField(required=False, queryset=Servico.objects.all())
+    cliente = forms.ModelChoiceField(required=False,queryset=Cliente.objects.all())
+    empresa = forms.ModelChoiceField(required=False,queryset=Empresa.objects.all())
+    status = forms.CharField(required=False)
+    
+    class Meta:
+        model = Pagamento
+        fields = ('valor_pagar', 'servico', 'cliente', 'empresa', 'status')
