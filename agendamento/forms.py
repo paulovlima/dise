@@ -64,3 +64,23 @@ class PagamentoForm(forms.ModelForm):
     class Meta:
         model = Pagamento
         fields = ('valor_pagar', 'servico', 'cliente', 'empresa', 'status', 'titular', 'cvv', 'num_cartao', 'validade')
+
+class CommentClienteForm(forms.ModelForm):
+    author = forms.ModelChoiceField(required=False, queryset=Cliente.objects.all())
+    empresa = forms.ModelChoiceField(required=False, queryset=Empresa.objects.all())
+    text = forms.CharField(widget=forms.Textarea(attrs={'rows':'7','cols':'40','style':'resize:none'}), required=False, max_length=300)
+    rating = forms.DecimalField(required=False,max_value=5, min_value=0, max_digits=2, decimal_places=1)
+
+    class Meta:
+        model = CommentCliente
+        fields = ('author', 'empresa','text','rating')
+
+class CommentEmpresaForm(forms.ModelForm):
+    author = forms.ModelChoiceField(required=False, queryset=Empresa.objects.all())
+    cliente = forms.ModelChoiceField(required=False, queryset=Cliente.objects.all())
+    text = forms.CharField(widget=forms.Textarea(attrs={'rows':'7','cols':'40','style':'resize:none'}), required=False, max_length=300)
+    rating = forms.DecimalField(required=False,max_value=5, min_value=0, max_digits=2, decimal_places=1)
+
+    class Meta:
+        model = CommentCliente
+        fields = ('author', 'cliente','text','rating')

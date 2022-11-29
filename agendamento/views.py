@@ -4,9 +4,10 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from accounts.forms import EmpresaUpdate, ClienteUpdate
-from .forms import ServicoForm, PagamentoForm
-from .models import Servico, Pagamento
+from .forms import ServicoForm, PagamentoForm, CommentClienteForm, CommentEmpresaForm
+from .models import Servico, Pagamento, CommentCliente, CommentEmpresa
 from datetime import date
+from django.db.models import Q
 # Create your views here.
 
 def index(request):
@@ -23,7 +24,11 @@ def index(request):
 
 def perfil_view(request, user_id):
     perfil = get_object_or_404(User, pk = user_id)
-    context = {'perfil':perfil}
+    if perfil.is_cliente:
+        comments = CommentEmpresa.objects.filter(cliente = perfil.cliente)
+    else:
+        comments = CommentEmpresa.objects.filter(empresa = perfil.empresa)
+    context = {'perfil':perfil, 'comments': comments}
     return render(request, 'agendamento/perfil.html', context)
 
 @login_required
@@ -136,13 +141,10 @@ def agendamento_view(request, user_id):
             )
             servico.save()
             return HttpResponseRedirect(
-                reverse('agendamento_completo',)
+                reverse('lista_servico',args=(request.user.id))
             )
     context = {'empresa': empresa, 'form': form}
     return render(request, 'agendamento/agendar.html', context)
-
-def agendamento_completo(request):
-    return render(request, 'agendamento/completo.html', {})
 
 def tag_view(request, tag_name):
     tag = get_object_or_404(Tags, name=tag_name)
@@ -182,13 +184,13 @@ def servico_view(request, user_id):
         cliente = perfil.cliente
         servicos = Servico.objects.filter(cliente = cliente,status = 'ESPERANDO')
         pagamento = Pagamento.objects.filter(cliente = cliente,status = 'ESPERANDO')
-        pagos = Pagamento.objects.filter(cliente = cliente,status = 'PAGO')
+        pagos = Pagamento.objects.filter(Q(status = 'PAGO') | Q(status = 'COMENTADO_EMPRESA'),cliente= cliente)
 
     else:
         empresa = perfil.empresa
         servicos = Servico.objects.filter(empresa= empresa, status = 'ESPERANDO')
         pagamento = Pagamento.objects.filter(empresa= empresa, status = 'ESPERANDO')
-        pagos = Pagamento.objects.filter(empresa= empresa, status = 'PAGO')
+        pagos = Pagamento.objects.filter(Q(status = 'PAGO') | Q(status = 'COMENTADO_CLIENTE'),empresa= empresa)
 
     context = {'servicos': servicos, 'perfil':perfil, 'pagamento':pagamento, 'pagos':pagos}
     return render(request,'agendamento/agend_list.html', context)
@@ -249,3 +251,70 @@ def pagamento_view(request, pag_id):
         reverse('lista_servicos', args=(user.id,)))
     context = {'pagamento':pagamento, 'form':form}
     return render(request, 'agendamento/pagar.html', context)
+
+def comentario_view(request,pag_id):
+    user =request.user
+    pagamento = get_object_or_404(Pagamento, Q(status='PAGO') | Q(status='COMENTADO_CLIENTE') | Q(status ='COMENTADO_EMPRESA'), pk = pag_id)
+    if (user.id != pagamento.cliente.user.id and user.is_cliente) or (user.id != pagamento.empresa.user.id and user.is_empresa):
+        return HttpResponseRedirect(
+        reverse('lista_servicos', args=(user.id,)))
+    elif user.is_cliente and (pagamento.status == 'COMENTADO_CLIENTE' or pagamento.status == 'COMENTADO_CLIENTE_EMPRESA'):
+        return HttpResponseRedirect(
+        reverse('lista_servicos', args=(user.id,)))
+    elif user.is_empresa and (pagamento.status == 'COMENTADO_EMPRESA' or pagamento.status == 'COMENTADO_CLIENTE_EMPRESA'):
+        return HttpResponseRedirect(
+        reverse('lista_servicos', args=(user.id,)))
+    if user.is_cliente:
+        form = CommentClienteForm(
+            initial= {
+                'text': '',
+                'rating': 0
+            }
+        )
+        if request.method == 'POST':
+            form = CommentClienteForm(request.POST)
+            if form.is_valid():
+                comment = CommentCliente(
+                    author = pagamento.cliente.user,
+                    empresa = pagamento.empresa,
+                    text = form.cleaned_data.get('text'),
+                    rating = form.cleaned_data.get('rating')
+                )
+                if pagamento.status == 'PAGO':
+                    pagamento.status = 'COMENTADO_CLIENTE'
+                    pagamento.save()
+                elif pagamento.status == 'COMENTADO_EMPRESA':
+                    pagamento.status = 'COMENTADO_CLIENTE_EMPRESA'
+                    pagamento.save()
+                if not form.cleaned_data.get('text') == '' and not form.cleaned_data.get('rating') == 0:
+                    comment.save()
+            return HttpResponseRedirect(
+        reverse('lista_servicos', args=(user.id,)))
+    else:
+        form = CommentEmpresaForm(
+            initial= {
+                'text': '',
+                'rating': 0
+            }
+        )
+        if request.method == 'POST':
+            form = CommentEmpresaForm(request.POST)
+            if form.is_valid():
+                comment = CommentEmpresa(
+                    author = pagamento.empresa.user,
+                    cliente = pagamento.cliente,
+                    text = form.cleaned_data.get('text'),
+                    rating = form.cleaned_data.get('rating')
+                )
+                if pagamento.status == 'PAGO':
+                    pagamento.status = 'COMENTADO_EMPRESA'
+                    pagamento.save()
+                elif pagamento.status == 'COMENTADO_CLIENTE':
+                    pagamento.status = 'COMENTADO_CLIENTE_EMPRESA'
+                    pagamento.save()
+                if not form.cleaned_data.get('text') == '' and not form.cleaned_data.get('rating') == 0:
+                    comment.save()
+            return HttpResponseRedirect(
+        reverse('lista_servicos', args=(user.id,)))
+    context = {'pagamento': pagamento, 'form':form}
+    return render(request, 'agendamento/comentario.html',context)

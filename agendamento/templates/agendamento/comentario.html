@@ -1,0 +1,39 @@
+{% extends 'base_login.html' %}
+
+{% block title %}
+{% if user.is_cliente %}
+Faça um comentário sobre {{ pagamento.empresa.nome_fantazia }}
+{% else %}
+Faça um comentário sobre {{ pagamento.cliente.nome}} {{ pagamento.cliente.sobrenome}}
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2> Faça um Comentário</h2>
+    {% for field in form %}
+    {% if field.errors %}
+        <li id="erro">{{ field.errors|striptags }}</li>
+    {% endif %}
+{% endfor %}
+    <form method="post">
+        <div class="container3">
+        {% csrf_token %}
+        {% if user.is_cliente %}
+                <h3>Para {{pagamento.servico.empresa.nome_fantasia}}</h3>
+        {% else %}
+        <h3>Para {{pagamento.servico.cliente.nome}} {{pagamento.servico.cliente.sobrenome}}</h3>
+        {% endif %}
+            </div>
+            <div>
+                <p>Avalie</p>
+                {{ form.rating }}
+            </div>
+            <div>
+                <p>Comentário</p>
+                {{ form.text }}
+            </div>
+        <button type="submit" id="login">Enviar</button>
+    </form>
+</div>
+{% endblock %}

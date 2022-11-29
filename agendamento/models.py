@@ -31,7 +31,7 @@ class CommentCliente(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     text = models.TextField()
     rating = models.DecimalField(max_digits=2,decimal_places=1,default=5)
-    cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
+    empresa = models.ForeignKey(Empresa,on_delete=models.CASCADE)
 
 class CommentEmpresa(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
