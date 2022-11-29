@@ -36,17 +36,31 @@ Perfil: {{ perfil.cliente.nome }}
 {% else %}
 <h3 style="font-family: 'Inder'"> Avaliação</h3>
 {% endif %}
-<p> Aqui entrará a avaliação</p>
+<h4> {{ rating }}/5</h4>
 {% if user.id == perfil.id %}
 <a href="{% url 'edit' perfil.id %}" class = 'edit' style="float:right; color: #8a8a8a"> Editar Perfil</a>
 {% endif %}
 <br>
 </div>
-{% if perfil.is_empresa %}
+{% if perfil.is_empresa or user.is_empresa %}
 <hr>
 <div id="comentario">
-<h3 style="font-family: 'Inder'"> Comentário</h3>
-<p>Aqui entrará os comentários</p>
+<section>
+    <h3 style="font-family: 'Inder'"> Comentário</h3>
+    <ul>
+        {% if comments %}
+            {% for comentario in comments %}
+            <figure>
+                <blockquote>
+                    "{{ comentario.text }}"
+                </blockquote>
+                <figcaption><h4>{{ comentario.author.cliente }}{{ comentario.author.empresa }}</h4>  {{ comentario.rating }}/5</figcaption>
+            </figure>
+            <hr>
+            {% endfor %}
+        {% endif %}
+    </ul>
+</section>
 </div>
 {% endif %}
 {% endblock content %}

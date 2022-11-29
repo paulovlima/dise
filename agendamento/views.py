@@ -7,7 +7,7 @@ from accounts.forms import EmpresaUpdate, ClienteUpdate
 from .forms import ServicoForm, PagamentoForm, CommentClienteForm, CommentEmpresaForm
 from .models import Servico, Pagamento, CommentCliente, CommentEmpresa
 from datetime import date
-from django.db.models import Q
+from django.db.models import Q, Avg
 # Create your views here.
 
 def index(request):
@@ -26,9 +26,15 @@ def perfil_view(request, user_id):
     perfil = get_object_or_404(User, pk = user_id)
     if perfil.is_cliente:
         comments = CommentEmpresa.objects.filter(cliente = perfil.cliente)
+        rating = comments.aggregate(Avg('rating'))['rating__avg']
+        if rating == None:
+            rating = 5
     else:
-        comments = CommentEmpresa.objects.filter(empresa = perfil.empresa)
-    context = {'perfil':perfil, 'comments': comments}
+        comments = CommentCliente.objects.filter(empresa = perfil.empresa)
+        rating = comments.aggregate(Avg('rating'))['rating__avg']
+        if rating == None:
+            rating = 5
+    context = {'perfil':perfil, 'comments': comments,'rating':rating}
     return render(request, 'agendamento/perfil.html', context)
 
 @login_required
@@ -112,6 +118,9 @@ def edit_perfil_view(request, user_id):
 
 def agendamento_view(request, user_id):
     perfil = get_object_or_404(User, pk=user_id)
+    rating = CommentCliente.objects.filter(empresa = perfil.empresa).aggregate(Avg('rating'))['rating__avg']
+    if rating == None:
+            rating = 5
     if perfil.is_cliente:
         return HttpResponseRedirect(
             reverse('index')
@@ -143,7 +152,7 @@ def agendamento_view(request, user_id):
             return HttpResponseRedirect(
                 reverse('lista_servico',args=(request.user.id))
             )
-    context = {'empresa': empresa, 'form': form}
+    context = {'empresa': empresa, 'form': form, 'rating': rating}
     return render(request, 'agendamento/agendar.html', context)
 
 def tag_view(request, tag_name):
