@@ -22,6 +22,10 @@ class Pagamento(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     status = models.CharField(max_length = 200)
+    num_cartao = models.CharField(max_length=12,default='')
+    validade = models.DateField(default=date.today())
+    cvv = models.CharField(max_length=3, default='000')
+    titular = models.CharField(max_length=50,default='')
 
 class CommentCliente(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)

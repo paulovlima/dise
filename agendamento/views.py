@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from accounts.forms import EmpresaUpdate, ClienteUpdate
 from .forms import ServicoForm, PagamentoForm
 from .models import Servico, Pagamento
-from django.views import generic
+from datetime import date
 # Create your views here.
 
 def index(request):
@@ -164,6 +164,16 @@ def servico_view(request, user_id):
         serv_cancelado = get_object_or_404(Servico,pk=cancelado)
         serv_cancelado.status = 'CANCELADO'
         serv_cancelado.save()
+    if request.GET.get('cancelPagamento',False):
+        cancelado =request.GET['cancelPagamento']
+        pag_cancelado = get_object_or_404(Pagamento,pk=cancelado)
+        pag_cancelado.status = 'CANCELADO'
+        pag_cancelado.save()
+    if request.GET.get('cancelAgendado',False):
+        cancelado =request.GET['cancelAgendado']
+        pag_cancelado = get_object_or_404(Pagamento,pk=cancelado)
+        pag_cancelado.status = 'CANCELADO'
+        pag_cancelado.save()
     if perfil.id != user.id:
         return HttpResponseRedirect(
             reverse('index')
@@ -171,10 +181,16 @@ def servico_view(request, user_id):
     if perfil.is_cliente:
         cliente = perfil.cliente
         servicos = Servico.objects.filter(cliente = cliente,status = 'ESPERANDO')
+        pagamento = Pagamento.objects.filter(cliente = cliente,status = 'ESPERANDO')
+        pagos = Pagamento.objects.filter(cliente = cliente,status = 'PAGO')
+
     else:
         empresa = perfil.empresa
         servicos = Servico.objects.filter(empresa= empresa, status = 'ESPERANDO')
-    context = {'servicos': servicos, 'perfil':perfil}
+        pagamento = Pagamento.objects.filter(empresa= empresa, status = 'ESPERANDO')
+        pagos = Pagamento.objects.filter(empresa= empresa, status = 'PAGO')
+
+    context = {'servicos': servicos, 'perfil':perfil, 'pagamento':pagamento, 'pagos':pagos}
     return render(request,'agendamento/agend_list.html', context)
 
 def orcamento_view(request, servico_id):
@@ -193,7 +209,11 @@ def orcamento_view(request, servico_id):
                 cliente = servico.cliente,
                 empresa = servico.empresa,
                 servico = servico,
-                status = 'AGUARDANDO'
+                status = 'ESPERANDO',
+                num_cartao = '',
+                titular = '',
+                cvv = '',
+                validade = date.today()
             )
             servico.status = 'PAGAMENTO'
             servico.save()
@@ -202,3 +222,30 @@ def orcamento_view(request, servico_id):
         reverse('lista_servico', args=(user.id,)))
     context = {'servico':servico, 'form': form}
     return render(request,'agendamento/orcamento.html',context)
+
+def pagamento_view(request, pag_id):
+    user = request.user
+    pagamento = get_object_or_404(Pagamento, pk = pag_id)
+    if user.is_empresa or user.id != pagamento.cliente.user.id:
+        return HttpResponseRedirect(
+            reverse('perfil', args=(user.id,))
+        )
+    form = PagamentoForm()
+    if request.method == 'POST':
+        form = PagamentoForm(request.POST)
+        if form.is_valid():
+            pagamento.titular = form.cleaned_data.get('titular')
+            pagamento.cvv = form.cleaned_data.get('cvv')
+            pagamento.num_cartao = form.cleaned_data.get('num_cartao')
+            mes = int(request.POST['mes'])
+            ano = int(request.POST['ano'])
+            pagamento.validade = date(year=ano, month= mes, day=1)
+            pagamento.status = 'PAGO'
+            servico = pagamento.servico
+            servico.status = 'AGENDADO'
+            pagamento.save()
+            servico.save()
+            return HttpResponseRedirect(
+        reverse('lista_servicos', args=(user.id,)))
+    context = {'pagamento':pagamento, 'form':form}
+    return render(request, 'agendamento/pagar.html', context)

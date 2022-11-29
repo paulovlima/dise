@@ -10,9 +10,9 @@ Agendamento: {{ perfil.cliente.nome }}
 
 {% block content %}
     <script>
-        function expandir(servico_id) {
-    var moreServ = document.getElementById('mais'+servico_id);
-    var textobotao = document.getElementById('expandBtn'+servico_id);
+        function expandirServ(servico_id) {
+    var moreServ = document.getElementById('maisServ'+servico_id);
+    var textobotao = document.getElementById('expandServBtn'+servico_id);
     if (moreServ.style.display === 'inline'){
         textobotao.innerHTML = 'Expandir';
         
@@ -22,59 +22,197 @@ Agendamento: {{ perfil.cliente.nome }}
         moreServ.style.display = 'inline';
     }
 }
+function expandirPag(pagamento_id) {
+    var morePag = document.getElementById('maisPag'+pagamento_id);
+    var textobotao = document.getElementById('expandPagBtn'+pagamento_id);
+    if (morePag.style.display === 'inline'){
+        textobotao.innerHTML = 'Expandir';
+        
+        morePag.style.display = 'none';
+    } else {
+        textobotao.innerHTML = 'Reduzir';
+        morePag.style.display = 'inline';
+    }
+}
+function expandirPago(pago_id) {
+    var morePago = document.getElementById('maisPago'+pago_id);
+    var textobotao = document.getElementById('expandPagoBtn'+pago_id);
+    if (morePago.style.display === 'inline'){
+        textobotao.innerHTML = 'Expandir';
+        
+        morePago.style.display = 'none';
+    } else {
+        textobotao.innerHTML = 'Reduzir';
+        morePago.style.display = 'inline';
+    }
+}
     </script>
-{% if servicos %}
 {% if perfil.is_cliente %}
-<h3 style="font-family:'Inter'">Você tem {{ servicos.count }} agendamentos aguardando confirmação </h3>
-<section class="servicos-list">
-    <hr>
-{% for servico in servicos %}
-<article id="servico">
-    <div id="servico-empresa">
-    <h4>{{ servico.empresa.nome_fantasia }}</h4>    
-    </div>
-    <div id="servico-horas">    
-        <p>Serviço agendado para: {{ servico.data_agendada }} às {{ servico.hora_agendada }}</p>
-        <p>Local Agendado: {{ servico.endereco_agendado }}</p>
-    </div>
-    <span id = 'mais{{ servico.id }}' style="display:none">
-        <p>Descrição:</p> <textarea rows="7" cols="40" readonly style="resize:none;border-radius: 10px;margin-left: 2%;">{{ servico.desc }}</textarea>
-        <form method="get" action="{% url 'lista_servicos' user.id %}">
-            <br>
-            <button style='background-color: rgb(235, 16, 16);'type="submit" value="{{servico.id}}" name="cancel">Cancelar</button>
-        </form>
-    </span>
-    <button onClick="expandir({{ servico.id }})" id='expandBtn{{servico.id}}' style='float:right;border-radius: 10px;margin-left: 2%;'>Expandir</button>
-</article>
-<hr>
-{% endfor %}
-</section>
-{% else %}
-<h3 style="font-family:'Inter'">Você tem {{ servicos.count }} agendamentos aguardando sua confirmação </h3>
-<section class="servicos-list">
-    <hr>
-{% for servico in servicos %}
-<article id="servico">
-    <div id="servico-empresa">
-    <h4>{{ servico.cliente.nome }} {{ servico.cliente.sobrenome }}</h4>    
-    </div>
-    <div id="servico-horas">    
-        <p>Serviço agendado para: {{ servico.data_agendada }} às {{ servico.hora_agendada }}</p>
-        <p>Local Agendado: {{ servico.endereco_agendado }}</p>
-    </div>
-    <span id = 'mais{{ servico.id }}' style="display:none">
-        <p>Descrição:</p> <textarea rows="7" cols="40" readonly style="resize:none;border-radius: 10px;margin-left: 2%;">{{ servico.desc }}</textarea>
-        <form method="get" action="{% url 'lista_servicos' user.id %}">
-            <br>
-            <button style='background-color: rgb(214, 20, 20);'type="submit" value="{{servico.id}}" name="cancel">Cancelar</button>
-        </form>
-        <button style='background-color: rgb(20, 214, 65);'><a href="{% url 'criar_orcamento' servico.id %}">Fazer Orçamento!</a></button>
-    </span>
-    <button onClick="expandir({{ servico.id }})" id='expandBtn{{servico.id}}' style='float:right;border-radius: 10px;margin-left: 2%;'>Expandir</button>
-</article>
-<hr>
-{% endfor %}
-</section>
+{% if not pagos and not servicos and not pagamento %}
+<h3 style="font-family:'Inter'"> Parece que você não tem nenhum agendamento ainda!</h3>
 {% endif %}
+{% if pagos %}
+        <h3 style="font-family:'Inter'">Você tem {{ pagos.count }} serviço agendado! </h3>
+        <section class="servicos-list">
+            <hr>
+        {% for pago in pagos %}
+            <article id="servico">
+                <div id="servico-empresa">
+                <h4>{{ pago.servico.empresa.nome_fantasia }}</h4>    
+                </div>
+                <div id="servico-horas">    
+                    <p>Serviço agendado para: {{ pago.servico.data_agendada }} às {{ pago.servico.hora_agendada }}</p>
+                    <p>Local Agendado: {{ pago.servico.endereco_agendado }}</p>
+                </div>
+                <span id = 'maisPago{{ pago.id }}' style="display:none">
+                    <p>Descrição:</p> <textarea rows="7" cols="40" readonly style="resize:none;border-radius: 10px;margin-left: 2%;">{{ pago.servico.desc }}</textarea>
+                    <form method="get" action="{% url 'lista_servicos' user.id %}">
+                        <br>
+                        <button style='background-color: rgb(214, 20, 20);'type="submit" value="{{pago.id}}" name="cancelAgendado">Cancelar</button>
+                    </form>
+                </span>
+                <button onClick="expandirPago({{ pago.id }})" id='expandPagoBtn{{pago.id}}' style='float:right;border-radius: 10px;margin-left: 2%;'>Expandir</button>
+            </article>
+            <hr>
+            {% endfor %}
+    {% endif %}
+    {% if servicos %}
+        <h3 style="font-family:'Inter'">Você tem {{ servicos.count }} agendamentos aguardando confirmação </h3>
+        <section class="servicos-list">
+            <hr>
+        {% for servico in servicos %}
+            <article id="servico">
+                <div id="servico-empresa">
+                <h4>{{ servico.empresa.nome_fantasia }}</h4>    
+                </div>
+                <div id="servico-horas">    
+                    <p>Serviço agendado para: {{ servico.data_agendada }} às {{ servico.hora_agendada }}</p>
+                    <p>Local Agendado: {{ servico.endereco_agendado }}</p>
+                </div>
+                <span id = 'maisServ{{ servico.id }}' style="display:none">
+                    <p>Descrição:</p> <textarea rows="7" cols="40" readonly style="resize:none;border-radius: 10px;margin-left: 2%;">{{ servico.desc }}</textarea>
+                    <form method="get" action="{% url 'lista_servicos' user.id %}">
+                        <br>
+                        <button style='background-color: rgb(235, 16, 16);'type="submit" value="{{servico.id}}" name="cancel">Cancelar</button>
+                    </form>
+                </span>
+                <button onClick="expandirServ({{ servico.id }})" id='expandServBtn{{servico.id}}' style='float:right;border-radius: 10px;margin-left: 2%;'>Expandir</button>
+            </article>
+            <hr>
+        {% endfor %}
+    {% endif %}
+    {% if pagamento %}
+        <h3 style="font-family:'Inter'">Você tem {{ pagamento.count }} serviço aguardando seu pagamento! </h3>
+        <section class="pagamento-list">
+            <hr>
+        {% for pag in pagamento %}
+            <article id="servico">
+                <div id="servico-empresa">
+                    <h4>{{ pag.empresa.nome_fantasia }}</h4>
+                <div id="servico-horas">    
+                    <p>Serviço agendado para: {{ pag.servico.data_agendada }} às {{ pag.servico.hora_agendada }}</p>
+                    <p>Local Agendado: {{ pag.servico.endereco_agendado }}</p>
+                </div>
+                <span id = 'maisPag{{ pag.id }}' style="display:none">
+                    <p>Descrição:</p> <textarea rows="7" cols="40" readonly style="resize:none;border-radius: 10px;margin-left: 2%;">{{ pag.servico.desc }}</textarea>
+                    <div>
+                        <p> Orçamento: {{ pag.valor_pagar }}</p>
+                    </div>
+                    <form method="get" action="{% url 'lista_servicos' user.id %}">
+                        <br>
+                        <button style='background-color: rgb(214, 20, 20);'type="submit" value="{{pag.id}}" name="cancelPagamento">Cancelar</button>
+                    </form>
+                    <button style='background-color: rgb(20, 214, 65);'><a href = "{% url 'pagar' pag.id %}">Pagar!</a></button>
+                </span>
+                <button onClick="expandirPag({{ pag.id }})" id='expandPagBtn{{pag.id}}' style='float:right;border-radius: 10px;margin-left: 2%;'>Expandir</button>
+            </article>
+            <hr>
+        {% endfor %}
+    {% endif %}
+{% endif %}
+    </section>
+{% if perfil.is_empresa %}
+{% if not pagos and not servicos and not pagamento %}
+<h3 style="font-family:'Inter'"> Parece que você não tem nenhum agendamento ainda!</h3>
+{% endif %}
+{% if pagos %}
+        <h3 style="font-family:'Inter'">Você tem {{ pagos.count }} serviço agendado! </h3>
+        <section class="servicos-list">
+            <hr>
+        {% for pago in pagos %}
+            <article id="servico">
+                <div id="servico-empresa">
+                <h4>{{ pago.servico.cliente.nome }} {{ pago.servico.cliente.sobrenome }}</h4>    
+                </div>
+                <div id="servico-horas">    
+                    <p>Serviço agendado para: {{ pago.servico.data_agendada }} às {{ pago.servico.hora_agendada }}</p>
+                    <p>Local Agendado: {{ pago.servico.endereco_agendado }}</p>
+                </div>
+                <span id = 'maisPago{{ pago.id }}' style="display:none">
+                    <p>Descrição:</p> <textarea rows="7" cols="40" readonly style="resize:none;border-radius: 10px;margin-left: 2%;">{{ pago.servico.desc }}</textarea>
+                    <form method="get" action="{% url 'lista_servicos' user.id %}">
+                        <br>
+                        <button style='background-color: rgb(214, 20, 20);'type="submit" value="{{pago.id}}" name="cancelAgendado">Cancelar</button>
+                    </form>
+                </span>
+                <button onClick="expandirPago({{ pago.id }})" id='expandPagoBtn{{pago.id}}' style='float:right;border-radius: 10px;margin-left: 2%;'>Expandir</button>
+            </article>
+            <hr>
+            {% endfor %}
+    {% endif %}
+    {% if servicos %}
+        <h3 style="font-family:'Inter'">Você tem {{ servicos.count }} agendamentos aguardando sua confirmação </h3>
+        <section class="servicos-list">
+            <hr>
+        {% for servico in servicos %}
+            <article id="servico">
+                <div id="servico-empresa">
+                <h4>{{ servico.cliente.nome }} {{ servico.cliente.sobrenome }}</h4>    
+                </div>
+                <div id="servico-horas">    
+                    <p>Serviço agendado para: {{ servico.data_agendada }} às {{ servico.hora_agendada }}</p>
+                    <p>Local Agendado: {{ servico.endereco_agendado }}</p>
+                </div>
+                <span id = 'maisServ{{ servico.id }}' style="display:none">
+                    <p>Descrição:</p> <textarea rows="7" cols="40" readonly style="resize:none;border-radius: 10px;margin-left: 2%;">{{ servico.desc }}</textarea>
+                    <form method="get" action="{% url 'lista_servicos' user.id %}">
+                        <br>
+                        <button style='background-color: rgb(214, 20, 20);'type="submit" value="{{servico.id}}" name="cancel">Cancelar</button>
+                    </form>
+                    <button style='background-color: rgb(20, 214, 65);'><a href="{% url 'pagamento' servico.id %}">Fazer Orçamento!</a></button>
+                </span>
+                <button onClick="expandirServ({{ servico.id }})" id='expandServBtn{{servico.id}}' style='float:right;border-radius: 10px;margin-left: 2%;'>Expandir</button>
+            </article>
+            <hr>
+            {% endfor %}
+    {% endif %}
+    {% if pagamento %}
+        <h3 style="font-family:'Inter'">Você tem {{ pagamento.count }} pagamento aguardando ser relizado </h3>
+        <section class="pagamento-list">
+            <hr>
+        {% for pag in pagamento %}
+            <article id="servico">
+                <div id="servico-empresa">
+                    <h4>{{ pag.cliente.nome }} {{ pag.cliente.sobrenome }}</h4>
+                <div id="servico-horas">    
+                    <p>Serviço agendado para: {{ pag.servico.data_agendada }} às {{ pag.servico.hora_agendada }}</p>
+                    <p>Local Agendado: {{ pag.servico.endereco_agendado }}</p>
+                </div>
+                <span id = 'maisPag{{ pag.id }}' style="display:none">
+                    <p>Descrição:</p> <textarea rows="7" cols="40" readonly style="resize:none;border-radius: 10px;margin-left: 2%;">{{ pag.servico.desc }}</textarea>
+                    <div>
+                        <p> Orçamento: {{ pag.valor_pagar }}</p>
+                    </div>
+                    <form method="get" action="{% url 'lista_servicos' user.id %}">
+                        <br>
+                        <button style='background-color: rgb(214, 20, 20);'type="submit" value="{{pag.id}}" name="cancelPagamento">Cancelar</button>
+                    </form>
+                </span>
+                <button onClick="expandirPag({{ pag.id }})" id='expandPagBtn{{pag.id}}' style='float:right;border-radius: 10px;margin-left: 2%;'>Expandir</button>
+            </article>
+            <hr>
+        {% endfor %}
+    {% endif %}
+    </section>
 {% endif %}
 {% endblock %}
