@@ -118,13 +118,14 @@ def edit_perfil_view(request, user_id):
 
 def agendamento_view(request, user_id):
     perfil = get_object_or_404(User, pk=user_id)
+    user = request.user
     rating = CommentCliente.objects.filter(empresa = perfil.empresa).aggregate(Avg('rating'))['rating__avg']
     if rating == None:
             rating = 5
     if perfil.is_cliente:
         return HttpResponseRedirect(
-            reverse('index')
-        )
+        reverse('lista_servicos', args=(user.id,)))
+    
     empresa = perfil.empresa
     weekday = {'seg':empresa.seg,
                 'ter': empresa.ter,
@@ -146,11 +147,10 @@ def agendamento_view(request, user_id):
                 endereco_agendado = form.cleaned_data.get('endereco_agendado'),
                 status = 'ESPERANDO',
                 desc = form.cleaned_data.get('desc'),
-                orcamento = 0
             )
             servico.save()
             return HttpResponseRedirect(
-                reverse('lista_servico',args=(request.user.id))
+                reverse('index')
             )
     context = {'empresa': empresa, 'form': form, 'rating': rating}
     return render(request, 'agendamento/agendar.html', context)
@@ -230,7 +230,7 @@ def orcamento_view(request, servico_id):
             servico.save()
             pagamento.save()
             return HttpResponseRedirect(
-        reverse('lista_servico', args=(user.id,)))
+        reverse('lista_servicos', args=(user.id,)))
     context = {'servico':servico, 'form': form}
     return render(request,'agendamento/orcamento.html',context)
 
