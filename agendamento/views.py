@@ -124,7 +124,7 @@ def agendamento_view(request, user_id):
             rating = 5
     if perfil.is_cliente:
         return HttpResponseRedirect(
-        reverse('lista_servicos', args=(user.id,)))
+        reverse('index'))
     
     empresa = perfil.empresa
     weekday = {'seg':empresa.seg,
@@ -150,8 +150,7 @@ def agendamento_view(request, user_id):
             )
             servico.save()
             return HttpResponseRedirect(
-                reverse('index')
-            )
+        reverse('lista_servicos', args=(user.id,)))
     context = {'empresa': empresa, 'form': form, 'rating': rating}
     return render(request, 'agendamento/agendar.html', context)
 

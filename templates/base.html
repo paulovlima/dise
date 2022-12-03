@@ -18,9 +18,11 @@
 </head>
 <body>
     <header id = "header-principal">
-        <a href="{% url 'index' %}"><img src="{% static 'logo.png' %}" width="150" height="75"> </a>
         <nav id = "nav-principal">
             <ul>
+                <li>
+                    <a href="{% url 'index' %}"><img src="{% static 'logo.png' %}" width="150" height="75"> </a>
+                </li>
                 {% if user.is_authenticated %}
                 <li style="margin-right:10%;">
                     <div id = "caixa-perfil">
@@ -29,16 +31,16 @@
                         <p class = 'nome-perfil'>{{ user.empresa.nome_fantasia }}</p>
                         {% else %}
                         <a href="{% url 'perfil' user.id %}" class ="foto-perfil"><img src="{{ user.cliente.image }}"/></a>
-                        <p class="nome-perfil">{{ user.cliente.nome }}</p>
+                        <p class="nome-perfil">{{ user.cliente.nome }} {{user.cliente.sobrenome}}</p>
                         {% endif %}
                     </div>
                 </li>    
                 <li><a href="{% url 'lista_servicos' user.id %}"id = 'login'>Agendamentos</a></li>
-                <li style="float:right"><a href="{% url 'logout' %}" id = 'login'>Sair</a></li>
+                <li style="float:right; margin-top:1%"><a href="{% url 'logout' %}" id = 'login'>Sair</a></li>
                 {% else %}
                 <li><a id = 'cadastro' href="{% url 'singup_empresa' %}">Cadastro Empresa</a></li>
                 <li><a id = 'cadastro' href="{% url 'singup_cliente' %}">Cadastro Usuário</a></li>
-                <li style="float:right"><a id='login' href="{% url 'login_dise' %}">Login</a></li>
+                <li style="float:right; margin-top:1%"><a id='login' href="{% url 'login_dise' %}">Login</a></li>
                 {% endif %}
 
                 

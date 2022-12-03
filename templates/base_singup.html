@@ -18,10 +18,12 @@
 </head>
 <body>
     <header id = "header-principal">
-        <a href="{% url 'index' %}"><img src="{% static 'logo.png' %}" width="150" height="75"> </a>
         <nav id = "nav-principal">
             <ul>
-                <li style="float:right"><a id='login' href="{% url 'login_dise' %}">Login</a></li>
+                <li>
+                    <a href="{% url 'index' %}"><img src="{% static 'logo.png' %}" width="150" height="75"> </a>
+                </li>
+                <li style="float:right; margin-top:1%"><a id='login' href="{% url 'login_dise' %}">Login</a></li>
             </ul>
         </nav>
     </header>

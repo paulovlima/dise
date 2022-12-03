@@ -7,18 +7,18 @@
    height: 90px;
  }
 
-
+ 
  nav#nav-principal li{
-    display: inline-block;
-    padding-left: 10px;
-    width: 150px;
- }
-
- #main-principal{
-  height:100vh;
- }
-
- #login{
+   display: inline-block;
+   padding-left: 10px;
+   width: 150px;
+  }
+  
+  #main-principal{
+    height:100vh;
+  }
+  
+  #login{
     border-radius: 13px;
     width: 150px;
     height: 35px;
@@ -29,15 +29,15 @@
     font-family: 'Inter';
     color: white;
     text-decoration: none;
- }
- #login:hover{
+  }
+  #login:hover{
     background-color: #eba205;
     text-decoration: underline;
     cursor: pointer;
  }
-
+ 
  #cadastro{
-    border-radius: 20px;
+   border-radius: 20px;
     width: 150px;
     height: 32px;
     justify-content: center;
@@ -46,119 +46,119 @@
     color:#1D41FF;
     text-decoration: none;
     font-family: 'Inter';
- }
- #cadastro:hover{
+  }
+  #cadastro:hover{
     text-decoration: underline;
- }
-
- footer#footer-principal{
+  }
+  
+  footer#footer-principal{
     background-color: #FDAD00;
     display: flex;
     justify-content: center;
     align-items: center;
- }
-
- #lista-tags{
+  }
+  
+  #lista-tags{
     justify-content: center;
     display: flex;
     align-items: center;
- }
-
- .subtitle{
+  }
+  
+  .subtitle{
     font-family: 'bhavuka';
- }
+  }
  #pesquisa{
    display: flex;
-    justify-content: center;
-    align-items: center;
-    
- }
- #pesquisa input{
-   border-top-width: 0px;
-   border-top-style: solid;
-   border-right-width: 0px;
+   justify-content: center;
+   align-items: center;
+   
+  }
+  #pesquisa input{
+    border-top-width: 0px;
+    border-top-style: solid;
+    border-right-width: 0px;
    border-right-style: solid;
    border-left-width: 0px;
    border-left-style: solid;
    width: 240px;
    height: 20px;
- }
- #pesquisa button{
-  margin-left: 10px;
+  }
+  #pesquisa button{
+    margin-left: 10px;
   border-radius: 3px;
    float: right;
    background-color: #FDAD00;
    border: 1px solid grey;
  }
  #pesquisa button:hover{
-  background-color: #eba205;
-  text-decoration: underline;
-  cursor: pointer;
- }
-
- #caixa-perfil{
-   height: 30px;
-   width: 250px;
-   display: flex;
-   align-items: center;
-   }
-
- .nome-perfil{
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   grid-row-start: 1;
-   grid-row-end: 2;
-   margin-top: 0px;
+   background-color: #eba205;
+   text-decoration: underline;
+   cursor: pointer;
+  }
+  
+  #caixa-perfil{
+    height: 30px;
+    width: 250px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nome-perfil{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    margin-top: 0px;
  }
  .foto-perfil img{
    width: 55px;
    height: 55px;
    border-radius: 100%;
    border: 1px solid grey;
- }
+  }
+  
+  .imagem-perfil{
+    width: 122px;
+    height: 122px;
+    border-radius: 100%;
+    border: 1px solid grey;
+  }
+  
+  #perfil-principal{
+    display: flex;
+    align-items: center;
+  }
+  
+  #descricao{
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
 
- .imagem-perfil{
-   width: 122px;
-   height: 122px;
-   border-radius: 100%;
-   border: 1px solid grey;
- }
-
- #perfil-principal{
-   display: flex;
-   align-items: center;
- }
-
- #descricao{
-  margin-left: 10px;
-  margin-top: 10px;
-  margin-right: 10px;
-  margin-bottom: 10px;
- }
-
- #descricao textarea{
-  resize: none;
-  border-radius: 20px
- }
-
- #avaliacao{
-  margin-left: 10px;
-  margin-top: 10px;
-  margin-right: 10px;
-  margin-bottom: 10px;
- }
- .edit:hover{
-  text-decoration: underline;
- }
-
- #erro{
+  #descricao textarea{
+    resize: none;
+    border-radius: 20px
+  }
+  
+  #avaliacao{
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  .edit:hover{
+    text-decoration: underline;
+  }
+  
+  #erro{
   color:red;
 }
 
- .lista-empresa{
+.lista-empresa{
   font-family: "Inder";
- }
+}
 
 .empresa{
   display: flex;
@@ -263,4 +263,7 @@
 #servico button:hover{
   cursor: pointer;
   background-color: #eba205;
+}
+nav#nav-principal{
+  display: flex;
 }
