@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
 
 {% block title %}
 Página Principal
@@ -32,7 +33,7 @@ Página Principal
         </a>
         <div>
         <a class = 'nome-empresa' href="{% url 'agendar' empresa.user.id %}">{{ empresa.nome_fantasia }}</a>
-        <p>Avaliação</p>
+        <p>{{ empresa|avg_rating:"0" }}/5</p>
         </div>
         <div style="margin-left:auto;margin-right: 10%;">
             <p style="display:flex;align-items:center;justify-content: center;">Tags</p>
