@@ -10,15 +10,34 @@ from datetime import date
 from django.db.models import Q, Avg
 # Create your views here.
 
+def lista_empresa(empresa_list, filtro = ''):
+    if filtro == '':
+        todas = Empresa.objects.all()
+        for empresa in todas:
+            if empresa in empresa_list:
+                continue
+            empresa_list.append(empresa)
+    else:
+        todas = Empresa.objects.filter(nome_fantasia__icontains=filtro)
+        for empresa in todas:
+            if empresa in empresa_list:
+                continue
+            empresa_list.append(empresa)
+    return empresa_list
+
+
 def index(request):
     user = request.user
     tags = Tags.objects.all()
+    empresa_list = []
     if request.GET.get('query',False):
         search_term = request.GET['query'].lower()
         if search_term != '':
             empresa_list = Empresa.objects.filter(nome_fantasia__icontains=search_term)
     else:
-        empresa_list = Empresa.objects.all()    
+        for empresa in CommentCliente.objects.values('empresa').annotate(Avg('rating')).order_by('-rating__avg'):
+            empresa_list.append(User.objects.filter(pk=empresa['empresa'])[0].empresa)
+        empresa_list = lista_empresa(empresa_list)
     context = {'user':user, "empresa_list":empresa_list,'tags':tags}
     return render(request, 'agendamento/index.html', context)
 
